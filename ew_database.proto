@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package SeppoService;
+
+import "ew_song.proto";
+
+message EwDatabase {
+
+}
+
+message SyncEwDatabaseRequest {
+	uint32 EwDatabaseId = 1;
+	repeated EwSong ewSong = 2;
+}
+
+message SyncEwDatabaseResponse {
+
+}
