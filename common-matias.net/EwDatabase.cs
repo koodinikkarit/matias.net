@@ -44,6 +44,21 @@ namespace common_matias
             }
         }
 
+        private string databasePath;
+
+        public string DatabasePath
+        {
+            get { return databasePath; }
+            set {
+                databasePath = value;
+                songsConnection = new SQLiteConnection("Data Source=" + value + "/Data/Songs.db;Version=3;");
+                songWordsConnection = new SQLiteConnection("Data Source=" + value + "/Data/SongWords.db;Version=3;");
+                songsConnection.Open();
+                songWordsConnection.Open();
+            }
+        }
+
+
         public EwDatabase(
             string songsDatabasePath,
             string songsWordsDatabasePath
@@ -53,6 +68,10 @@ namespace common_matias
             SongWordsDatabasePath = songsWordsDatabasePath;
         }
 
+        public EwDatabase()
+        {
+
+        }
 
         public IEnumerable<Song> getSongs()
         {
@@ -107,7 +126,6 @@ namespace common_matias
 
                     foreach (var verse in versesPlainText.Split(new string[] { "\n\r\n" }, StringSplitOptions.None))
                     {
-                        Console.WriteLine("verse " + verse);
                         song.verses.Add(new Verse
                         {
                             text = verse

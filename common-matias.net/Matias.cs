@@ -16,6 +16,7 @@ namespace common_matias
         EwDatabase ewDatabase;
 
         SeppoService.Seppo.SeppoClient seppoClient;
+        Channel channel;
 
         public EwDatabase Ewdatabase {
         get
@@ -24,8 +25,38 @@ namespace common_matias
             }
         }
 
-        public string seppoIp { get; set; }
-        public int seppoPort { get; set; }
+        private string seppoIp;
+        public string SeppoIp {
+            get
+            {
+                return seppoIp;
+            }
+            set
+            {
+                seppoIp = value;
+                this.createSeppoClient();
+            }
+        }
+
+        private int seppoPort;
+        public int SeppoPort {
+            get
+            {
+                return seppoPort;
+            }
+            set
+            {
+                seppoPort = value;
+                this.createSeppoClient();
+            }
+        }
+
+        private void createSeppoClient()
+        {
+            Console.WriteLine("connection " + seppoIp + ":" + seppoPort);
+            channel = new Channel(seppoIp + ":" + seppoPort, ChannelCredentials.Insecure);
+            seppoClient = new Seppo.SeppoClient(channel);
+        }
 
         public Matias(
             string seppoIp,
@@ -34,8 +65,15 @@ namespace common_matias
             string songWordsDatabasePath
         ) {
             ewDatabase = new EwDatabase(songsDatabasePath, songWordsDatabasePath);
-            var channel = new Channel(seppoIp + ":" + seppoPort, ChannelCredentials.Insecure);
-            seppoClient = new Seppo.SeppoClient(channel);
+            this.createSeppoClient();
+        }
+
+        public Matias()
+        {
+            ewDatabase = new EwDatabase();
+            seppoIp = "localhost";
+            seppoPort = 3214;
+            this.createSeppoClient();
         }
 
         public void updateOrCreate(EwSong song)
@@ -54,9 +92,8 @@ namespace common_matias
 
         public void SyncEwDatabase()
         {
+            this.createSeppoClient();
             var songs = ewDatabase.getSongs();
-
-            Console.WriteLine("songsCount " + songs.Count());
 
             RepeatedField<EwSong> ewSongs = new RepeatedField<EwSong>();
 
@@ -94,7 +131,11 @@ namespace common_matias
 
             request.EwSongs.Add(ewSongs);
 
-            seppoClient.syncEwDatabase(request);
+            var res = seppoClient.syncEwDatabase(request);
+
+            channel.ShutdownAsync().Wait();
+
+            Console.WriteLine("SyncEwDatabase " + res.EwSongs.Count);
         }
     }
 }
