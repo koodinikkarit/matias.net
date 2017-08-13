@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "common-matias.net", "common
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "matias-wpf", "..\matias-wpf\matias-wpf.csproj", "{F3FD2EE4-92FD-4652-87C1-FA3A2A72A2D5}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MatiasInstaller", "MatiasInstaller\MatiasInstaller.vdproj", "{E9429C57-C5F5-4A2C-B95A-A53C1994DDC5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatiasService", "MatiasService\MatiasService.csproj", "{D5C0609C-338E-48C3-8CC0-4C7B6F48F6F2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,12 @@ Global
 		{F3FD2EE4-92FD-4652-87C1-FA3A2A72A2D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3FD2EE4-92FD-4652-87C1-FA3A2A72A2D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3FD2EE4-92FD-4652-87C1-FA3A2A72A2D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9429C57-C5F5-4A2C-B95A-A53C1994DDC5}.Debug|Any CPU.ActiveCfg = Debug
+		{E9429C57-C5F5-4A2C-B95A-A53C1994DDC5}.Release|Any CPU.ActiveCfg = Release
+		{D5C0609C-338E-48C3-8CC0-4C7B6F48F6F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5C0609C-338E-48C3-8CC0-4C7B6F48F6F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5C0609C-338E-48C3-8CC0-4C7B6F48F6F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5C0609C-338E-48C3-8CC0-4C7B6F48F6F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

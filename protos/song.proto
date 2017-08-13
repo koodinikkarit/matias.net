@@ -2,6 +2,6 @@ syntax = "proto3";
 
 package SeppoService;
 
-message EwVerse {
-	string verse = 1;
+message Song {
+	uint32 id = 1;
 }

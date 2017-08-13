@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Grpc.Core;
-using SeppoService;
 using Google.Protobuf.Collections;
 using DCSoft.RTF;
 using System.Data.SQLite;
@@ -13,11 +12,15 @@ namespace common_matias
 {
     public class Matias
     {
+        SeppoClient seppoClient;
+        public SeppoClient MatiasClient {
+            get
+            {
+                return seppoClient;
+            }
+        }
+
         EwDatabase ewDatabase;
-
-        SeppoService.Seppo.SeppoClient seppoClient;
-        Channel channel;
-
         public EwDatabase Ewdatabase {
         get
             {
@@ -25,117 +28,37 @@ namespace common_matias
             }
         }
 
-        private string seppoIp;
-        public string SeppoIp {
-            get
-            {
-                return seppoIp;
-            }
-            set
-            {
-                seppoIp = value;
-                this.createSeppoClient();
-            }
-        }
-
-        private int seppoPort;
-        public int SeppoPort {
-            get
-            {
-                return seppoPort;
-            }
-            set
-            {
-                seppoPort = value;
-                this.createSeppoClient();
-            }
-        }
-
-        private void createSeppoClient()
-        {
-            Console.WriteLine("connection " + seppoIp + ":" + seppoPort);
-            channel = new Channel(seppoIp + ":" + seppoPort, ChannelCredentials.Insecure);
-            seppoClient = new Seppo.SeppoClient(channel);
-        }
-
-        public Matias(
-            string seppoIp,
-            int seppoPort,
-            string songsDatabasePath,
-            string songWordsDatabasePath
-        ) {
-            ewDatabase = new EwDatabase(songsDatabasePath, songWordsDatabasePath);
-            this.createSeppoClient();
-        }
-
         public Matias()
         {
+            seppoClient = new SeppoClient();
             ewDatabase = new EwDatabase();
-            seppoIp = "localhost";
-            seppoPort = 3214;
-            this.createSeppoClient();
-        }
-
-        public void updateOrCreate(EwSong song)
-        {
-
-        }
-
-        public List<EwSong> getSongs()
-        {
-            List<EwSong> ewSongs = new List<EwSong>();
-
-
-
-            return ewSongs;
         }
 
         public void SyncEwDatabase()
         {
-            this.createSeppoClient();
             var songs = ewDatabase.getSongs();
+            var response = seppoClient.SyncEwDatabase(1, songs);
+            response.Wait();
 
-            RepeatedField<EwSong> ewSongs = new RepeatedField<EwSong>();
+            var variationIdEwSongIds = new List<VariationIdEwSongId>();
 
-            foreach (var song in songs)
+            var results = response.Result;
+
+            foreach(var ewSong in results.songs)
             {
-                var ewSong = new EwSong
+                var variationIdEwSongId = ewDatabase.updateOrCreateSong(ewSong);
+                if (variationIdEwSongId != null)
                 {
-                    Id = (uint)song.id,
-                    Title = song.title,
-                    Author = song.author,
-                    Copyright = song.copyright,
-                    Administrator = song.administrator,
-                    Description = song.description != null ? song.description : "",
-                    Tags = song.tags != null ? song.tags : ""
-                };
-
-                if (song.verses != null)
-                {
-                    foreach (var verse in song.verses)
-                    {
-                        ewSong.Verses.Add(new EwVerse()
-                        {
-                            Text = verse.text
-                        });
-                    }
+                    variationIdEwSongIds.Add(variationIdEwSongId);
                 }
-
-                ewSongs.Add(ewSong);
             }
 
-            var request = new SyncEwDatabaseRequest()
+            foreach(var removeId in results.removeSongIds)
             {
-                EwDatabaseId = 5
-            };
+                ewDatabase.removeEwSong(removeId);
+            }
 
-            request.EwSongs.Add(ewSongs);
-
-            var res = seppoClient.syncEwDatabase(request);
-
-            channel.ShutdownAsync().Wait();
-
-            Console.WriteLine("SyncEwDatabase " + res.EwSongs.Count);
+            seppoClient.InsertEwSongIds(1, variationIdEwSongIds);     
         }
     }
 }

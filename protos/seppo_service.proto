@@ -2,16 +2,47 @@ syntax = "proto3";
 
 package SeppoService;
 
+import "song_database.proto";
+import "song_database_variation.proto";
 import "ew_database.proto";
 import "ew_song.proto";
 import "ew_verse.proto";
 
+import "variation.proto";
+
+
 service Seppo {
 	// Queries
-
+	
+	rpc fetchVariationById(FetchVariationByIdRequest) returns(FetchVariationByIdResponse) {}
+	rpc searchVariations(SearchVariationsRequest) returns(SearchVariationsResponse) {}
 	rpc listenForChangedEwSong(ListenForChangedEwSongRequest) returns(stream EwSong) {}
+
+	rpc fetchSongDatabases(FetchSongDatabasesRequest) returns (SongDatabasesConnection) {}
+	rpc fetchSongDatabaseById(FetchSongDatabaseByIdRequest) returns(FetchSongDatabaseByIdResponse) {}
+
+	rpc fetchEwDatabases(FetchEwDatabasesRequest) returns(EwDatabasesConnection) {}
+	rpc fetchEwDatabaseById(FetchEwDatabaseByIdRequest) returns(FetchEwDatabaseByIdResponse) {}
+
+	rpc fetchVariationsBySongDatabaseId(FetchVariationsBySongDatabaseIdRequest) returns(FetchVariationsBySongDatabaseIdResponse) {}
 
 	// Mutations
 
+	rpc createVariation(CreateVariationRequest) returns(CreateVariationResponse) {}
+	rpc editVariation(EditVariationRequest) returns(EditVariationResponse) {}
+	rpc removeVariation(RemoveVariationRequest) returns(RemoveVariationResponse) {}
+
+	rpc createSongDatabase(CreateSongDatabaseRequest) returns(CreateSongDatabaseResponse) {}
+	rpc editSongDatabase(EditSongDatabaseRequest) returns(EditSongDatabaseResponse) {}
+	rpc removeSongDatabase(RemoveSongDatabaseRequest) returns(RemoveSongDatabaseResponse) {}
+
+	rpc createEwDatabase(CreateEwDatabaseRequest) returns(CreateEwDatabaseResponse) {}
+	rpc editEwDatabase(EditEwDatabaseRequest) returns(EditEwDatabaseResponse) {}
+	rpc removeEwDatabase(RemoveEwDatabaseRequest) returns(RemoveEwDatabaseResponse) {}
+
+	rpc addVariationToSongDatabase(AddVariationToSongDatabaseRequest) returns(AddVariationToSongDatabaseResponse) {}
+	rpc removeVariationFromSongDatabase(RemoveVariationFromSongDatabaseRequest) returns(RemoveVariationFromSongDatabaseResponse) {}
+
 	rpc syncEwDatabase(SyncEwDatabaseRequest) returns(SyncEwDatabaseResponse) {}
+	rpc insertEwSongIds(InsertEwSongIdsRequest) returns(InsertEwSongIdsResponse) {}
 }

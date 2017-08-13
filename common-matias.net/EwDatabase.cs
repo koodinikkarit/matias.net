@@ -50,14 +50,21 @@ namespace common_matias
         {
             get { return databasePath; }
             set {
+                Console.WriteLine("Songspath" + value + "\\Data\\Songs.db");
                 databasePath = value;
-                songsConnection = new SQLiteConnection("Data Source=" + value + "/Data/Songs.db;Version=3;");
-                songWordsConnection = new SQLiteConnection("Data Source=" + value + "/Data/SongWords.db;Version=3;");
+                songsConnection = new SQLiteConnection("Data Source=" + value + "\\Data\\Songs.db;Version=3;");
+                songWordsConnection = new SQLiteConnection("Data Source=" + value + "\\Data\\SongWords.db;Version=3;");
                 songsConnection.Open();
                 songWordsConnection.Open();
+
+                songsConnection.Update += SongsConnection_Update;
             }
         }
 
+        private void SongsConnection_Update(object sender, UpdateEventArgs e)
+        {
+            Console.WriteLine("Update songs");
+        }
 
         public EwDatabase(
             string songsDatabasePath,
@@ -89,16 +96,16 @@ namespace common_matias
 
                 while (songsReader.Read())
                 {
+                    
                     var song = new Song()
                     {
                         id = int.Parse(songsReader["rowid"].ToString()),
-                        title = songsReader["title"] != null ? (string)songsReader["title"] : "",
-                        author = songsReader["author"] != null ? (string)songsReader["author"] : "",
-                        copyright = songsReader["copyright"] != null ? (string)songsReader["copyright"] : "",
-                        administrator = songsReader["administrator"] != null ? (string)songsReader["administrator"] : "",
-                        //description = songsReader["description"] != null ? (string)songsReader["description"] : "",
-                        //tags = songsReader["tags"] != null ? (string)songsReader["tags"] : ""
-                        verses = new List<Verse>()
+                        title = songsReader["title"] != System.DBNull.Value ? (string)songsReader["title"] : "",
+                        author = songsReader["author"] != System.DBNull.Value ? (string)songsReader["author"] : "",
+                        copyright = songsReader["copyright"] != System.DBNull.Value ? (string)songsReader["copyright"] : "",
+                        administrator = songsReader["administrator"] != System.DBNull.Value ? (string)songsReader["administrator"] : "",
+                        description = songsReader["description"] != System.DBNull.Value ? (string)songsReader["description"] : "",
+                        tags = songsReader["tags"] != System.DBNull.Value ? (string)songsReader["tags"] : ""
                     };
 
                     dSongs[(int)song.id] = song;
@@ -120,22 +127,10 @@ namespace common_matias
                         dSongs[id] = song;
                     }
 
-                    var verses = (string)songWordsReader["words"];
-
-                    var versesPlainText = RichTextStripper.StripRichTextFormat(verses);
-
-                    foreach (var verse in versesPlainText.Split(new string[] { "\n\r\n" }, StringSplitOptions.None))
-                    {
-                        song.verses.Add(new Verse
-                        {
-                            text = verse
-                        });
-                    }
+                    song.text = songWordsReader["words"] != System.DBNull.Value ? RichTextStripper.StripRichTextFormat((string)songWordsReader["words"]) : "";
                 }
                 songs = dSongs.Select(p => p.Value);
-
             }
-
             return songs;
         }
 
@@ -156,36 +151,19 @@ namespace common_matias
                     song = new Song()
                     {
                         id = (int)songReader["rowid"],
-                        title = (string)songReader["title"],
-                        author = (string)songReader["author"],
-                        copyright = (string)songReader["copyright"],
-                        administrator = (string)songReader["administrator"],
-                        description = (string)songReader["description"],
-                        tags = (string)songReader["tags"]
+                        title = songReader["title"] != System.DBNull.Value ? (string)songReader["title"] : "",
+                        author = songReader["author"] != System.DBNull.Value ? (string)songReader["author"] : "",
+                        copyright = songReader["copyright"] != System.DBNull.Value ? (string)songReader["copyright"] : "",
+                        administrator = songReader["administrator"] != System.DBNull.Value ? (string)songReader["administrator"] : "",
+                        description = songReader["description"] != System.DBNull.Value ? (string)songReader["description"] : "",
+                        tags = songReader["tags"] != System.DBNull.Value ? (string)songReader["tags"] : ""
                     };
                 }
                 if (song != null)
                 {
-                    DCSoft.RTF.RTFDomDocument doc = new RTFDomDocument();
                     while (songWordsReader.Read())
                     {
-                        var verses = (string)songWordsReader["words"];
-
-                        try
-                        {
-                            doc.LoadRTFText(verses);
-                            foreach (var verse in doc.InnerText.Split(new string[] { "\n\r\n" }, StringSplitOptions.None))
-                            {
-                                song.verses.Add(new Verse
-                                {
-                                    text = verse
-                                });
-                            }
-                        }
-                        catch
-                        {
-
-                        }
+                        song.text = songWordsReader["words"] != System.DBNull.Value ? RichTextStripper.StripRichTextFormat((string)songWordsReader["words"]) : "";
                     }
                 }
             }
@@ -211,53 +189,104 @@ namespace common_matias
             return false;
         }
 
-        public void updateOrCreateSong(Song song)
+        public VariationIdEwSongId updateOrCreateSong(Song song)
         {
             if (songsConnection.State == System.Data.ConnectionState.Open && songWordsConnection.State == System.Data.ConnectionState.Open)
             {
                 if (song.id != null && songExists((int) song.id))
                 {
                     var updateSongCommand = new SQLiteCommand("update song set title = ?, author = ?, copyright =  ?, administrator = ?, description = ?, tags = ? where rowid = ?", songsConnection);
-                    updateSongCommand.Parameters.Add(song.title);
-                    updateSongCommand.Parameters.Add(song.author);
-                    updateSongCommand.Parameters.Add(song.copyright);
-                    updateSongCommand.Parameters.Add(song.administrator);
-                    updateSongCommand.Parameters.Add(song.description);
-                    updateSongCommand.Parameters.Add(song.tags);
-                    updateSongCommand.Parameters.Add(song.id);
+                    updateSongCommand.Parameters.Add(new SQLiteParameter("@title", song.title));
+                    updateSongCommand.Parameters.Add(new SQLiteParameter("@author", song.author));
+                    updateSongCommand.Parameters.Add(new SQLiteParameter("@copyright", song.copyright));
+                    updateSongCommand.Parameters.Add(new SQLiteParameter("@administrator", song.administrator));
+                    updateSongCommand.Parameters.Add(new SQLiteParameter("@description", song.description));
+                    updateSongCommand.Parameters.Add(new SQLiteParameter("@tags", song.tags));
+                    updateSongCommand.Parameters.Add(new SQLiteParameter("@rowid", song.id.ToString()));
 
                     updateSongCommand.ExecuteNonQuery();
 
-                    string words = @"{\rtf1{\pard" + String.Join(@"\par\par", song.verses.Select(p => p.text)) + "}}";
+                    string words = @"{\rtf1{\pard " + song.text.Replace("\n", @"\par ") + "}}";
 
                     var updateSongWordsCommand = new SQLiteCommand("update word set words = ? where song_id = ?", songWordsConnection);
 
-                    updateSongWordsCommand.Parameters.Add(words);
+                    updateSongWordsCommand.Parameters.Add(new SQLiteParameter("@words", words));
+                    updateSongWordsCommand.Parameters.Add(new SQLiteParameter("@song_id", song.id));
 
                     updateSongWordsCommand.ExecuteNonQuery();
-
-
                 } else
                 {
-                    var insertSongCommand = new SQLiteCommand("insert into song (title, author, copyright, administrator, description, tags) values(?, ?, ?, ?, ?, ?)", songsConnection);
-                    insertSongCommand.Parameters.Add(song.title);
-                    insertSongCommand.Parameters.Add(song.author);
-                    insertSongCommand.Parameters.Add(song.copyright);
-                    insertSongCommand.Parameters.Add(song.administrator);
-                    insertSongCommand.Parameters.Add(song.description);
-                    insertSongCommand.Parameters.Add(song.tags);
+                    var songUid = Guid.NewGuid();
+                    var insertSongCommand = new SQLiteCommand("insert into song (song_item_uid, song_uid, title, author, copyright, administrator, description, tags) values(@song_item_uid, @song_uid, @title, @author, @copyright, @administrator, @description, @tags)", songsConnection);
+                    insertSongCommand.Parameters.Add(new SQLiteParameter("@song_item_uid", songUid));
+                    insertSongCommand.Parameters.Add(new SQLiteParameter("@song_uid", songUid));
+                    insertSongCommand.Parameters.Add(new SQLiteParameter("@title", song.title));
+                    insertSongCommand.Parameters.Add(new SQLiteParameter("@author", song.author));
+                    insertSongCommand.Parameters.Add(new SQLiteParameter("@copyright", song.copyright));
+                    insertSongCommand.Parameters.Add(new SQLiteParameter("@administrator", song.administrator));
+                    insertSongCommand.Parameters.Add(new SQLiteParameter("@description", song.description));
+                    insertSongCommand.Parameters.Add(new SQLiteParameter("@tags", song.tags));
 
-                    insertSongCommand.ExecuteNonQuery();
+                    //try
+                    //{
+                        insertSongCommand.ExecuteNonQuery(System.Data.CommandBehavior.SingleRow);
+                    //} catch(Exception e)
+                    //{
+                    //    fixDatabase();
+                    //}
 
                     var songId = songsConnection.LastInsertRowId;
 
-                    string words = @"{\rtf1{\pard" + String.Join(@"\par\par", song.verses.Select(p => p.text)) + "}}";
+                    string words = @"{\rtf1{\pard " + song.text.Replace("\n", @"\par ") + "}}";
 
-                    var insertSongWordsCommand = new SQLiteCommand("insert into word (song_id, words) values (?, ?)", songWordsConnection);
-                    insertSongWordsCommand.Parameters.Add(songId);
-                    insertSongWordsCommand.Parameters.Add(words);
+                    var insertSongWordsCommand = new SQLiteCommand("insert into word (song_id, words) values (@song_id, @words)", songWordsConnection);
+                    insertSongWordsCommand.Parameters.Add(new SQLiteParameter("@song_id", songId.ToString()));
+                    insertSongWordsCommand.Parameters.Add(new SQLiteParameter("@words", words));
 
                     insertSongWordsCommand.ExecuteNonQuery();
+
+                    return new VariationIdEwSongId
+                    {
+                        variationId = (UInt32) song.variationId,
+                        ewSongId = (UInt32) songId
+                    };
+                }
+            }
+            return null;
+        }
+
+        public void removeEwSong(UInt32 id)
+        {
+            if (songsConnection.State == System.Data.ConnectionState.Open && songWordsConnection.State == System.Data.ConnectionState.Open)
+            {
+                var removeSongCommand = new SQLiteCommand("delete from song where rowid = @rowid", songsConnection);
+                removeSongCommand.Parameters.Add(new SQLiteParameter("@rowid", id));
+                removeSongCommand.ExecuteNonQuery();
+
+                var removeSongWordsCommand = new SQLiteCommand("delete from word where song_id = @song_id", songWordsConnection);
+                removeSongWordsCommand.Parameters.Add(new SQLiteParameter("@song_id", id));
+                removeSongWordsCommand.ExecuteNonQuery();
+            }
+        }
+
+        public void fixDatabase()
+        {
+            if (songsConnection.State == System.Data.ConnectionState.Open && songWordsConnection.State == System.Data.ConnectionState.Open)
+            {
+                var songs = getSongs();
+
+                var removeSongWords = new SQLiteCommand("delete from word", songWordsConnection);
+                removeSongWords.ExecuteNonQuery();
+
+                var removeSongTableCommand = new SQLiteCommand("DROP TABLE song", songsConnection);
+                removeSongTableCommand.ExecuteNonQuery();
+                var createSongTableCommand = new SQLiteCommand("CREATE TABLE song (rowid integer PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, song_item_uid text UNIQUE, song_rev_uid text, song_uid text, title text NOT NULL, author text, copyright text, administrator text, description text, tags text, reference_number text, vendor_id integer, presentation_id integer, layout_revision integer DEFAULT 1, revision integer DEFAULT 1 )", songsConnection);
+                createSongTableCommand.ExecuteNonQuery();                
+
+                foreach(var song in songs)
+                {
+                    song.id = 0;
+                    updateOrCreateSong(song);
                 }
             }
         }

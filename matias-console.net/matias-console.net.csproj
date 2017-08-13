@@ -80,11 +80,6 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="seppo_service\EwDatabase.cs" />
-    <Compile Include="seppo_service\EwSong.cs" />
-    <Compile Include="seppo_service\EwVerse.cs" />
-    <Compile Include="seppo_service\SeppoService.cs" />
-    <Compile Include="seppo_service\SeppoServiceGrpc.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -107,7 +102,8 @@
   </Target>
   <Import Project="..\packages\Grpc.Core.1.4.1\build\net45\Grpc.Core.targets" Condition="Exists('..\packages\Grpc.Core.1.4.1\build\net45\Grpc.Core.targets')" />
   <PropertyGroup>
-    <PreBuildEvent>protoc.exe $(SolutionDir)protos/*.proto -I $(SolutionDir)protos --csharp_out $(SolutionDir)$(ProjectName)\seppo_service --grpc_out $(SolutionDir)$(ProjectName)\seppo_service  --plugin=protoc-gen-grpc=$(SolutionDir)packages\Grpc.Tools.1.4.1\tools\windows_x86\grpc_csharp_plugin.exe</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

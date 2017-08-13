@@ -5,7 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using common_matias;
 using Grpc.Core;
-using SeppoService;
+using System.IO;
+//using SeppoService;
 
 namespace matias_console.net
 {
@@ -35,10 +36,15 @@ namespace matias_console.net
 
             Matias matias = new Matias();
             matias.Ewdatabase.DatabasePath = @"D:\ewengineering\ew_makkara\v6.1\Databases";
-            matias.SeppoIp = "10.70.0.50";
-            matias.SeppoPort = 3214;
+            matias.MatiasClient.MatiasServerIp = "localhost";
+            matias.MatiasClient.MatiasServerPort = 3214;
 
             matias.SyncEwDatabase();
+
+            //while (true)
+            //{
+
+            //}
         }
     }
 }

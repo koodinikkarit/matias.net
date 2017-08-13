@@ -23,14 +23,22 @@ namespace SeppoService {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Cg1ld19zb25nLnByb3RvEgxTZXBwb1NlcnZpY2UaDmV3X3ZlcnNlLnByb3Rv",
-            "IqcBCgZFd1NvbmcSCgoCaWQYASABKA0SDQoFdGl0bGUYAiABKAkSDgoGYXV0",
+            "IqMBCgZFd1NvbmcSCgoCaWQYASABKA0SDQoFdGl0bGUYAiABKAkSDgoGYXV0",
             "aG9yGAMgASgJEhEKCWNvcHlyaWdodBgEIAEoCRIVCg1hZG1pbmlzdHJhdG9y",
-            "GAUgASgJEhMKC2Rlc2NyaXB0aW9uGAYgASgJEgwKBHRhZ3MYByABKAkSJQoG",
-            "dmVyc2VzGAggAygLMhUuU2VwcG9TZXJ2aWNlLkV3VmVyc2ViBnByb3RvMw=="));
+            "GAUgASgJEhMKC2Rlc2NyaXB0aW9uGAYgASgJEgwKBHRhZ3MYByABKAkSDAoE",
+            "dGV4dBgIIAEoCRITCgt2YXJpYXRpb25JZBgJIAEoDSI8ChNWYXJpYXRpb25J",
+            "ZEV3U29uZ0lkEhAKCGV3U29uZ0lkGAEgASgNEhMKC3ZhcmlhdGlvbklkGAIg",
+            "ASgNIm8KFkluc2VydEV3U29uZ0lkc1JlcXVlc3QSFAoMZXdEYXRhYmFzZUlk",
+            "GAEgASgNEj8KFHZhcmlhdGlvbklkRXdTb25nSWRzGAIgAygLMiEuU2VwcG9T",
+            "ZXJ2aWNlLlZhcmlhdGlvbklkRXdTb25nSWQiGQoXSW5zZXJ0RXdTb25nSWRz",
+            "UmVzcG9uc2ViBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::SeppoService.EwVerseReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::SeppoService.EwSong), global::SeppoService.EwSong.Parser, new[]{ "Id", "Title", "Author", "Copyright", "Administrator", "Description", "Tags", "Verses" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::SeppoService.EwSong), global::SeppoService.EwSong.Parser, new[]{ "Id", "Title", "Author", "Copyright", "Administrator", "Description", "Tags", "Text", "VariationId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SeppoService.VariationIdEwSongId), global::SeppoService.VariationIdEwSongId.Parser, new[]{ "EwSongId", "VariationId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SeppoService.InsertEwSongIdsRequest), global::SeppoService.InsertEwSongIdsRequest.Parser, new[]{ "EwDatabaseId", "VariationIdEwSongIds" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SeppoService.InsertEwSongIdsResponse), global::SeppoService.InsertEwSongIdsResponse.Parser, null, null, null, null)
           }));
     }
     #endregion
@@ -68,7 +76,8 @@ namespace SeppoService {
       administrator_ = other.administrator_;
       description_ = other.description_;
       tags_ = other.tags_;
-      verses_ = other.verses_.Clone();
+      text_ = other.text_;
+      variationId_ = other.variationId_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -153,14 +162,26 @@ namespace SeppoService {
       }
     }
 
-    /// <summary>Field number for the "verses" field.</summary>
-    public const int VersesFieldNumber = 8;
-    private static readonly pb::FieldCodec<global::SeppoService.EwVerse> _repeated_verses_codec
-        = pb::FieldCodec.ForMessage(66, global::SeppoService.EwVerse.Parser);
-    private readonly pbc::RepeatedField<global::SeppoService.EwVerse> verses_ = new pbc::RepeatedField<global::SeppoService.EwVerse>();
+    /// <summary>Field number for the "text" field.</summary>
+    public const int TextFieldNumber = 8;
+    private string text_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::SeppoService.EwVerse> Verses {
-      get { return verses_; }
+    public string Text {
+      get { return text_; }
+      set {
+        text_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "variationId" field.</summary>
+    public const int VariationIdFieldNumber = 9;
+    private uint variationId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public uint VariationId {
+      get { return variationId_; }
+      set {
+        variationId_ = value;
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -183,7 +204,8 @@ namespace SeppoService {
       if (Administrator != other.Administrator) return false;
       if (Description != other.Description) return false;
       if (Tags != other.Tags) return false;
-      if(!verses_.Equals(other.verses_)) return false;
+      if (Text != other.Text) return false;
+      if (VariationId != other.VariationId) return false;
       return true;
     }
 
@@ -197,7 +219,8 @@ namespace SeppoService {
       if (Administrator.Length != 0) hash ^= Administrator.GetHashCode();
       if (Description.Length != 0) hash ^= Description.GetHashCode();
       if (Tags.Length != 0) hash ^= Tags.GetHashCode();
-      hash ^= verses_.GetHashCode();
+      if (Text.Length != 0) hash ^= Text.GetHashCode();
+      if (VariationId != 0) hash ^= VariationId.GetHashCode();
       return hash;
     }
 
@@ -236,7 +259,14 @@ namespace SeppoService {
         output.WriteRawTag(58);
         output.WriteString(Tags);
       }
-      verses_.WriteTo(output, _repeated_verses_codec);
+      if (Text.Length != 0) {
+        output.WriteRawTag(66);
+        output.WriteString(Text);
+      }
+      if (VariationId != 0) {
+        output.WriteRawTag(72);
+        output.WriteUInt32(VariationId);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -263,7 +293,12 @@ namespace SeppoService {
       if (Tags.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Tags);
       }
-      size += verses_.CalculateSize(_repeated_verses_codec);
+      if (Text.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Text);
+      }
+      if (VariationId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(VariationId);
+      }
       return size;
     }
 
@@ -293,7 +328,12 @@ namespace SeppoService {
       if (other.Tags.Length != 0) {
         Tags = other.Tags;
       }
-      verses_.Add(other.verses_);
+      if (other.Text.Length != 0) {
+        Text = other.Text;
+      }
+      if (other.VariationId != 0) {
+        VariationId = other.VariationId;
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -333,9 +373,384 @@ namespace SeppoService {
             break;
           }
           case 66: {
-            verses_.AddEntriesFrom(input, _repeated_verses_codec);
+            Text = input.ReadString();
             break;
           }
+          case 72: {
+            VariationId = input.ReadUInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class VariationIdEwSongId : pb::IMessage<VariationIdEwSongId> {
+    private static readonly pb::MessageParser<VariationIdEwSongId> _parser = new pb::MessageParser<VariationIdEwSongId>(() => new VariationIdEwSongId());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<VariationIdEwSongId> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::SeppoService.EwSongReflection.Descriptor.MessageTypes[1]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public VariationIdEwSongId() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public VariationIdEwSongId(VariationIdEwSongId other) : this() {
+      ewSongId_ = other.ewSongId_;
+      variationId_ = other.variationId_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public VariationIdEwSongId Clone() {
+      return new VariationIdEwSongId(this);
+    }
+
+    /// <summary>Field number for the "ewSongId" field.</summary>
+    public const int EwSongIdFieldNumber = 1;
+    private uint ewSongId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public uint EwSongId {
+      get { return ewSongId_; }
+      set {
+        ewSongId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "variationId" field.</summary>
+    public const int VariationIdFieldNumber = 2;
+    private uint variationId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public uint VariationId {
+      get { return variationId_; }
+      set {
+        variationId_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as VariationIdEwSongId);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(VariationIdEwSongId other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (EwSongId != other.EwSongId) return false;
+      if (VariationId != other.VariationId) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (EwSongId != 0) hash ^= EwSongId.GetHashCode();
+      if (VariationId != 0) hash ^= VariationId.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (EwSongId != 0) {
+        output.WriteRawTag(8);
+        output.WriteUInt32(EwSongId);
+      }
+      if (VariationId != 0) {
+        output.WriteRawTag(16);
+        output.WriteUInt32(VariationId);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (EwSongId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(EwSongId);
+      }
+      if (VariationId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(VariationId);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(VariationIdEwSongId other) {
+      if (other == null) {
+        return;
+      }
+      if (other.EwSongId != 0) {
+        EwSongId = other.EwSongId;
+      }
+      if (other.VariationId != 0) {
+        VariationId = other.VariationId;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            EwSongId = input.ReadUInt32();
+            break;
+          }
+          case 16: {
+            VariationId = input.ReadUInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class InsertEwSongIdsRequest : pb::IMessage<InsertEwSongIdsRequest> {
+    private static readonly pb::MessageParser<InsertEwSongIdsRequest> _parser = new pb::MessageParser<InsertEwSongIdsRequest>(() => new InsertEwSongIdsRequest());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<InsertEwSongIdsRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::SeppoService.EwSongReflection.Descriptor.MessageTypes[2]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public InsertEwSongIdsRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public InsertEwSongIdsRequest(InsertEwSongIdsRequest other) : this() {
+      ewDatabaseId_ = other.ewDatabaseId_;
+      variationIdEwSongIds_ = other.variationIdEwSongIds_.Clone();
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public InsertEwSongIdsRequest Clone() {
+      return new InsertEwSongIdsRequest(this);
+    }
+
+    /// <summary>Field number for the "ewDatabaseId" field.</summary>
+    public const int EwDatabaseIdFieldNumber = 1;
+    private uint ewDatabaseId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public uint EwDatabaseId {
+      get { return ewDatabaseId_; }
+      set {
+        ewDatabaseId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "variationIdEwSongIds" field.</summary>
+    public const int VariationIdEwSongIdsFieldNumber = 2;
+    private static readonly pb::FieldCodec<global::SeppoService.VariationIdEwSongId> _repeated_variationIdEwSongIds_codec
+        = pb::FieldCodec.ForMessage(18, global::SeppoService.VariationIdEwSongId.Parser);
+    private readonly pbc::RepeatedField<global::SeppoService.VariationIdEwSongId> variationIdEwSongIds_ = new pbc::RepeatedField<global::SeppoService.VariationIdEwSongId>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::SeppoService.VariationIdEwSongId> VariationIdEwSongIds {
+      get { return variationIdEwSongIds_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as InsertEwSongIdsRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(InsertEwSongIdsRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (EwDatabaseId != other.EwDatabaseId) return false;
+      if(!variationIdEwSongIds_.Equals(other.variationIdEwSongIds_)) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (EwDatabaseId != 0) hash ^= EwDatabaseId.GetHashCode();
+      hash ^= variationIdEwSongIds_.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (EwDatabaseId != 0) {
+        output.WriteRawTag(8);
+        output.WriteUInt32(EwDatabaseId);
+      }
+      variationIdEwSongIds_.WriteTo(output, _repeated_variationIdEwSongIds_codec);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (EwDatabaseId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(EwDatabaseId);
+      }
+      size += variationIdEwSongIds_.CalculateSize(_repeated_variationIdEwSongIds_codec);
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(InsertEwSongIdsRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.EwDatabaseId != 0) {
+        EwDatabaseId = other.EwDatabaseId;
+      }
+      variationIdEwSongIds_.Add(other.variationIdEwSongIds_);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            EwDatabaseId = input.ReadUInt32();
+            break;
+          }
+          case 18: {
+            variationIdEwSongIds_.AddEntriesFrom(input, _repeated_variationIdEwSongIds_codec);
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class InsertEwSongIdsResponse : pb::IMessage<InsertEwSongIdsResponse> {
+    private static readonly pb::MessageParser<InsertEwSongIdsResponse> _parser = new pb::MessageParser<InsertEwSongIdsResponse>(() => new InsertEwSongIdsResponse());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<InsertEwSongIdsResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::SeppoService.EwSongReflection.Descriptor.MessageTypes[3]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public InsertEwSongIdsResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public InsertEwSongIdsResponse(InsertEwSongIdsResponse other) : this() {
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public InsertEwSongIdsResponse Clone() {
+      return new InsertEwSongIdsResponse(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as InsertEwSongIdsResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(InsertEwSongIdsResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(InsertEwSongIdsResponse other) {
+      if (other == null) {
+        return;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
         }
       }
     }
