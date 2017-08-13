@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace common_matias
 {
-    public class Verse
+    public class DatabaseLockStateChangedEventArgs: EventArgs
     {
-        public string text { get; set; }
+        public bool lockState { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SQLite;
 using DCSoft.RTF;
+using System.IO;
 
 namespace common_matias
 {
@@ -13,36 +14,9 @@ namespace common_matias
         SQLiteConnection songsConnection;
         SQLiteConnection songWordsConnection;
 
+        public event EventHandler<DatabaseLockStateChangedEventArgs> databaseLockStateChanged;
 
-        string songsDatabasePath;
-        string songWordsDatabasePath;
-
-        public string SongsDatabasePath {
-            get
-            {
-                return songsDatabasePath;
-            }
-            set
-            {
-                Console.WriteLine("songsPath " + value);
-                songsDatabasePath = value;
-                songsConnection = new SQLiteConnection("Data Source=" + value + ";Version=3;");
-                songsConnection.Open();
-            }
-        }
-        public string SongWordsDatabasePath
-        {
-            get
-            {
-                return songWordsDatabasePath;
-            }
-            set
-            {
-                songWordsDatabasePath = value;
-                songWordsConnection = new SQLiteConnection("Data Source=" + value + ";Version=3;");
-                songWordsConnection.Open();
-            }
-        }
+        private FileSystemWatcher watcher;
 
         private string databasePath;
 
@@ -58,6 +32,8 @@ namespace common_matias
                 songWordsConnection.Open();
 
                 songsConnection.Update += SongsConnection_Update;
+                watcher.Path = value + "/Locks";
+                watcher.EnableRaisingEvents = true;
             }
         }
 
@@ -66,18 +42,48 @@ namespace common_matias
             Console.WriteLine("Update songs");
         }
 
-        public EwDatabase(
-            string songsDatabasePath,
-            string songsWordsDatabasePath
-        )
-        {
-            SongsDatabasePath = songsDatabasePath;
-            SongWordsDatabasePath = songsWordsDatabasePath;
-        }
-
         public EwDatabase()
         {
+            watcher = new FileSystemWatcher();
+            watcher.Filter = "*.ulck";
+            watcher.NotifyFilter = NotifyFilters.LastAccess
+                                    | NotifyFilters.LastWrite
+                                    | NotifyFilters.FileName
+                                    | NotifyFilters.DirectoryName;
+            watcher.Created += Watcher_Created;
+            watcher.Deleted += Watcher_Deleted;
+        }
 
+        public bool Lockstate { get; set; }
+
+        private void Watcher_Created(object sender, FileSystemEventArgs e)
+        {
+            if (e.Name == "Client (1).ulck")
+            {
+                Lockstate = true;
+                if (databaseLockStateChanged != null)
+                {
+                    databaseLockStateChanged(this, new DatabaseLockStateChangedEventArgs
+                    {
+                        lockState = true
+                    });
+                }
+            }
+        }
+
+        private void Watcher_Deleted(object sender, FileSystemEventArgs e)
+        {
+            if (e.Name == "Client (1).ulck")
+            {
+                Lockstate = false;
+                if (databaseLockStateChanged != null)
+                {
+                    databaseLockStateChanged(this, new DatabaseLockStateChangedEventArgs
+                    {
+                        lockState = false
+                    });
+                }
+            }
         }
 
         public IEnumerable<Song> getSongs()
@@ -227,13 +233,14 @@ namespace common_matias
                     insertSongCommand.Parameters.Add(new SQLiteParameter("@description", song.description));
                     insertSongCommand.Parameters.Add(new SQLiteParameter("@tags", song.tags));
 
-                    //try
-                    //{
+                    try
+                    {
                         insertSongCommand.ExecuteNonQuery(System.Data.CommandBehavior.SingleRow);
-                    //} catch(Exception e)
-                    //{
-                    //    fixDatabase();
-                    //}
+                    } catch(Exception e)
+                    {
+                        fixDatabase();
+                        insertSongCommand.ExecuteNonQuery(System.Data.CommandBehavior.SingleRow);
+                    }
 
                     var songId = songsConnection.LastInsertRowId;
 
@@ -261,7 +268,15 @@ namespace common_matias
             {
                 var removeSongCommand = new SQLiteCommand("delete from song where rowid = @rowid", songsConnection);
                 removeSongCommand.Parameters.Add(new SQLiteParameter("@rowid", id));
-                removeSongCommand.ExecuteNonQuery();
+                try
+                {
+                    removeSongCommand.ExecuteNonQuery();
+                }
+                catch(Exception e)
+                {
+                    fixDatabase();
+                    removeSongCommand.ExecuteNonQuery();
+                }
 
                 var removeSongWordsCommand = new SQLiteCommand("delete from word where song_id = @song_id", songWordsConnection);
                 removeSongWordsCommand.Parameters.Add(new SQLiteParameter("@song_id", id));

@@ -32,12 +32,24 @@ namespace common_matias
         {
             seppoClient = new SeppoClient();
             ewDatabase = new EwDatabase();
+            ewDatabase.databaseLockStateChanged += EwDatabase_databaseLockStateChanged;
+        }
+
+        private void EwDatabase_databaseLockStateChanged(object sender, DatabaseLockStateChangedEventArgs e)
+        {
+            if (e.lockState == true)
+            {
+
+            } else if (e.lockState == false)
+            {
+                SyncEwDatabase();
+            }
         }
 
         public void SyncEwDatabase()
         {
             var songs = ewDatabase.getSongs();
-            var response = seppoClient.SyncEwDatabase(1, songs);
+            var response = seppoClient.SyncEwDatabase(1, songs.Where(p => p.id > 0));
             response.Wait();
 
             var variationIdEwSongIds = new List<VariationIdEwSongId>();

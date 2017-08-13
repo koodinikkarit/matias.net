@@ -17,6 +17,5 @@ namespace common_matias
         public string description { get; set; }
         public string tags { get; set; }
         public string text { get; set; }
-        public List<Verse> verses { get; set; }
     }
 }

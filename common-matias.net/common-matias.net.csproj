@@ -79,6 +79,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatabaseLockStateChangedEventArgs.cs" />
     <Compile Include="EwDatabase.cs" />
     <Compile Include="Matias.cs" />
     <Compile Include="SeppoClient.cs" />
@@ -96,7 +97,6 @@
     <Compile Include="Song.cs" />
     <Compile Include="SyncEwDatabaseResponse.cs" />
     <Compile Include="VariationIdEwSongId.cs" />
-    <Compile Include="Verse.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
