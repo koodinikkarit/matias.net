@@ -22,28 +22,28 @@ namespace SeppoService {
     static VariationReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cg92YXJpYXRpb24ucHJvdG8SDFNlcHBvU2VydmljZSJUCglWYXJpYXRpb24S",
-            "CgoCaWQYASABKA0SDAoEbmFtZRgCIAEoCRIOCgZzb25nSWQYAyABKA0SDAoE",
-            "dGV4dBgEIAEoCRIPCgd2ZXJzaW9uGAUgASgEIjQKFkNyZWF0ZVZhcmlhdGlv",
-            "blJlcXVlc3QSDAoEbmFtZRgBIAEoCRIMCgR0ZXh0GAIgASgJIkUKF0NyZWF0",
-            "ZVZhcmlhdGlvblJlc3BvbnNlEioKCXZhcmlhdGlvbhgBIAEoCzIXLlNlcHBv",
-            "U2VydmljZS5WYXJpYXRpb24iaAoURWRpdFZhcmlhdGlvblJlcXVlc3QSEwoL",
-            "dmFyaWF0aW9uSWQYASABKA0SDAoEbmFtZRgCIAEoCRIMCgR0ZXh0GAMgASgJ",
-            "Eg4KBnNvbmdJZBgEIAEoDRIPCgd2ZXJzaW9uGAUgASgEIkMKFUVkaXRWYXJp",
-            "YXRpb25SZXNwb25zZRIqCgl2YXJpYXRpb24YASABKAsyFy5TZXBwb1NlcnZp",
-            "Y2UuVmFyaWF0aW9uIi0KFlJlbW92ZVZhcmlhdGlvblJlcXVlc3QSEwoLdmFy",
-            "aWF0aW9uSWQYASABKA0iGQoXUmVtb3ZlVmFyaWF0aW9uUmVzcG9uc2UiMQoZ",
-            "RmV0Y2hWYXJpYXRpb25CeUlkUmVxdWVzdBIUCgx2YXJpYXRpb25JZHMYASAD",
-            "KA0iSQoaRmV0Y2hWYXJpYXRpb25CeUlkUmVzcG9uc2USKwoKdmFyaWF0aW9u",
-            "cxgBIAMoCzIXLlNlcHBvU2VydmljZS5WYXJpYXRpb24iYwoXU2VhcmNoVmFy",
-            "aWF0aW9uc1JlcXVlc3QSEgoKc2VhcmNoV29yZBgBIAEoCRIWCg5zb25nRGF0",
-            "YWJhc2VJZBgCIAEoDRIcChRzb25nRGF0YWJhc2VGaWx0ZXJJZBgDIAEoDSJH",
-            "ChhTZWFyY2hWYXJpYXRpb25zUmVzcG9uc2USKwoKdmFyaWF0aW9ucxgBIAMo",
-            "CzIXLlNlcHBvU2VydmljZS5WYXJpYXRpb25iBnByb3RvMw=="));
+            "Cg92YXJpYXRpb24ucHJvdG8SDFNlcHBvU2VydmljZSJGCglWYXJpYXRpb24S",
+            "CgoCaWQYASABKA0SDAoEbmFtZRgCIAEoCRIOCgZzb25nSWQYAyABKA0SDwoH",
+            "dmVyc2lvbhgFIAEoBCI0ChZDcmVhdGVWYXJpYXRpb25SZXF1ZXN0EgwKBG5h",
+            "bWUYASABKAkSDAoEdGV4dBgCIAEoCSJFChdDcmVhdGVWYXJpYXRpb25SZXNw",
+            "b25zZRIqCgl2YXJpYXRpb24YASABKAsyFy5TZXBwb1NlcnZpY2UuVmFyaWF0",
+            "aW9uImgKFEVkaXRWYXJpYXRpb25SZXF1ZXN0EhMKC3ZhcmlhdGlvbklkGAEg",
+            "ASgNEgwKBG5hbWUYAiABKAkSDAoEdGV4dBgDIAEoCRIOCgZzb25nSWQYBCAB",
+            "KA0SDwoHdmVyc2lvbhgFIAEoBCJDChVFZGl0VmFyaWF0aW9uUmVzcG9uc2US",
+            "KgoJdmFyaWF0aW9uGAEgASgLMhcuU2VwcG9TZXJ2aWNlLlZhcmlhdGlvbiIt",
+            "ChZSZW1vdmVWYXJpYXRpb25SZXF1ZXN0EhMKC3ZhcmlhdGlvbklkGAEgASgN",
+            "IhkKF1JlbW92ZVZhcmlhdGlvblJlc3BvbnNlIjEKGUZldGNoVmFyaWF0aW9u",
+            "QnlJZFJlcXVlc3QSFAoMdmFyaWF0aW9uSWRzGAEgAygNIkkKGkZldGNoVmFy",
+            "aWF0aW9uQnlJZFJlc3BvbnNlEisKCnZhcmlhdGlvbnMYASADKAsyFy5TZXBw",
+            "b1NlcnZpY2UuVmFyaWF0aW9uImMKF1NlYXJjaFZhcmlhdGlvbnNSZXF1ZXN0",
+            "EhIKCnNlYXJjaFdvcmQYASABKAkSFgoOc29uZ0RhdGFiYXNlSWQYAiABKA0S",
+            "HAoUc29uZ0RhdGFiYXNlRmlsdGVySWQYAyABKA0iXgoYU2VhcmNoVmFyaWF0",
+            "aW9uc1Jlc3BvbnNlEisKCnZhcmlhdGlvbnMYASADKAsyFy5TZXBwb1NlcnZp",
+            "Y2UuVmFyaWF0aW9uEhUKDW1heFZhcmlhdGlvbnMYAiABKA1iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::SeppoService.Variation), global::SeppoService.Variation.Parser, new[]{ "Id", "Name", "SongId", "Text", "Version" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SeppoService.Variation), global::SeppoService.Variation.Parser, new[]{ "Id", "Name", "SongId", "Version" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SeppoService.CreateVariationRequest), global::SeppoService.CreateVariationRequest.Parser, new[]{ "Name", "Text" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SeppoService.CreateVariationResponse), global::SeppoService.CreateVariationResponse.Parser, new[]{ "Variation" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SeppoService.EditVariationRequest), global::SeppoService.EditVariationRequest.Parser, new[]{ "VariationId", "Name", "Text", "SongId", "Version" }, null, null, null),
@@ -53,7 +53,7 @@ namespace SeppoService {
             new pbr::GeneratedClrTypeInfo(typeof(global::SeppoService.FetchVariationByIdRequest), global::SeppoService.FetchVariationByIdRequest.Parser, new[]{ "VariationIds" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SeppoService.FetchVariationByIdResponse), global::SeppoService.FetchVariationByIdResponse.Parser, new[]{ "Variations" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SeppoService.SearchVariationsRequest), global::SeppoService.SearchVariationsRequest.Parser, new[]{ "SearchWord", "SongDatabaseId", "SongDatabaseFilterId" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SeppoService.SearchVariationsResponse), global::SeppoService.SearchVariationsResponse.Parser, new[]{ "Variations" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::SeppoService.SearchVariationsResponse), global::SeppoService.SearchVariationsResponse.Parser, new[]{ "Variations", "MaxVariations" }, null, null, null)
           }));
     }
     #endregion
@@ -87,7 +87,6 @@ namespace SeppoService {
       id_ = other.id_;
       name_ = other.name_;
       songId_ = other.songId_;
-      text_ = other.text_;
       version_ = other.version_;
     }
 
@@ -129,17 +128,6 @@ namespace SeppoService {
       }
     }
 
-    /// <summary>Field number for the "text" field.</summary>
-    public const int TextFieldNumber = 4;
-    private string text_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Text {
-      get { return text_; }
-      set {
-        text_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
     /// <summary>Field number for the "version" field.</summary>
     public const int VersionFieldNumber = 5;
     private ulong version_;
@@ -167,7 +155,6 @@ namespace SeppoService {
       if (Id != other.Id) return false;
       if (Name != other.Name) return false;
       if (SongId != other.SongId) return false;
-      if (Text != other.Text) return false;
       if (Version != other.Version) return false;
       return true;
     }
@@ -178,7 +165,6 @@ namespace SeppoService {
       if (Id != 0) hash ^= Id.GetHashCode();
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (SongId != 0) hash ^= SongId.GetHashCode();
-      if (Text.Length != 0) hash ^= Text.GetHashCode();
       if (Version != 0UL) hash ^= Version.GetHashCode();
       return hash;
     }
@@ -202,10 +188,6 @@ namespace SeppoService {
         output.WriteRawTag(24);
         output.WriteUInt32(SongId);
       }
-      if (Text.Length != 0) {
-        output.WriteRawTag(34);
-        output.WriteString(Text);
-      }
       if (Version != 0UL) {
         output.WriteRawTag(40);
         output.WriteUInt64(Version);
@@ -223,9 +205,6 @@ namespace SeppoService {
       }
       if (SongId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeUInt32Size(SongId);
-      }
-      if (Text.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Text);
       }
       if (Version != 0UL) {
         size += 1 + pb::CodedOutputStream.ComputeUInt64Size(Version);
@@ -246,9 +225,6 @@ namespace SeppoService {
       }
       if (other.SongId != 0) {
         SongId = other.SongId;
-      }
-      if (other.Text.Length != 0) {
-        Text = other.Text;
       }
       if (other.Version != 0UL) {
         Version = other.Version;
@@ -273,10 +249,6 @@ namespace SeppoService {
           }
           case 24: {
             SongId = input.ReadUInt32();
-            break;
-          }
-          case 34: {
-            Text = input.ReadString();
             break;
           }
           case 40: {
@@ -1532,6 +1504,7 @@ namespace SeppoService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public SearchVariationsResponse(SearchVariationsResponse other) : this() {
       variations_ = other.variations_.Clone();
+      maxVariations_ = other.maxVariations_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1549,6 +1522,17 @@ namespace SeppoService {
       get { return variations_; }
     }
 
+    /// <summary>Field number for the "maxVariations" field.</summary>
+    public const int MaxVariationsFieldNumber = 2;
+    private uint maxVariations_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public uint MaxVariations {
+      get { return maxVariations_; }
+      set {
+        maxVariations_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as SearchVariationsResponse);
@@ -1563,6 +1547,7 @@ namespace SeppoService {
         return true;
       }
       if(!variations_.Equals(other.variations_)) return false;
+      if (MaxVariations != other.MaxVariations) return false;
       return true;
     }
 
@@ -1570,6 +1555,7 @@ namespace SeppoService {
     public override int GetHashCode() {
       int hash = 1;
       hash ^= variations_.GetHashCode();
+      if (MaxVariations != 0) hash ^= MaxVariations.GetHashCode();
       return hash;
     }
 
@@ -1581,12 +1567,19 @@ namespace SeppoService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
       variations_.WriteTo(output, _repeated_variations_codec);
+      if (MaxVariations != 0) {
+        output.WriteRawTag(16);
+        output.WriteUInt32(MaxVariations);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
       size += variations_.CalculateSize(_repeated_variations_codec);
+      if (MaxVariations != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(MaxVariations);
+      }
       return size;
     }
 
@@ -1596,6 +1589,9 @@ namespace SeppoService {
         return;
       }
       variations_.Add(other.variations_);
+      if (other.MaxVariations != 0) {
+        MaxVariations = other.MaxVariations;
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1608,6 +1604,10 @@ namespace SeppoService {
             break;
           case 10: {
             variations_.AddEntriesFrom(input, _repeated_variations_codec);
+            break;
+          }
+          case 16: {
+            MaxVariations = input.ReadUInt32();
             break;
           }
         }

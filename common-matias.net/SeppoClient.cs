@@ -17,24 +17,28 @@ namespace common_matias
         Channel channel;
         SeppoService.Seppo.SeppoClient client;
 
-        private string matiasServerIp;
+        private string seppoIp;
 
-        public string MatiasServerIp
+        public string SeppoIp
         {
-            get { return matiasServerIp; }
+            get {
+                return seppoIp;
+            }
             set {
-                matiasServerIp = value;
+                seppoIp = value;
                 this.CreateClient();
             }
         }
 
-        private int? matiasServerPort = null;
+        private int? seppoPort = null;
 
-        public int? MatiasServerPort
+        public int? SeppoPort
         {
-            get { return matiasServerPort; }
+            get {
+                return seppoPort;
+            }
             set {
-                matiasServerPort = value;
+                seppoPort = value;
                 this.CreateClient();
             }
         }
@@ -42,7 +46,7 @@ namespace common_matias
 
         private void CreateClient()
         {
-            if (matiasServerIp != null && matiasServerPort != null)
+            if (seppoIp != null && seppoPort != null)
             {
                 //this.tcpClient = new TcpClient(this.matiasServerIp, (int)this.matiasServerPort);
                 //var a = new Grpc.Core.SslCredentials()
@@ -52,7 +56,7 @@ namespace common_matias
                 var clientcert = File.ReadAllText("ssl/client.crt");
                 var clientkey = File.ReadAllText("ssl/client.key");
                 var ssl = new SslCredentials(cacert, new KeyCertificatePair(clientcert, clientkey));
-                channel = new Channel(matiasServerIp, (int) matiasServerPort, ChannelCredentials.Insecure);
+                channel = new Channel(seppoIp, (int) seppoPort, ChannelCredentials.Insecure);
                 //channel = new Channel(matiasServerIp + ":" + matiasServerPort, ssl);
                 client = new SeppoService.Seppo.SeppoClient(channel);
             }
@@ -63,10 +67,10 @@ namespace common_matias
 
         }
 
-        public void InsertEwSongIds(UInt32 ewDatabaseId, List<VariationIdEwSongId> ids)
+        public void InsertEwSongIds(string ewDatabaseKey, List<VariationIdEwSongId> ids, Dictionary<int, int> links = null)
         {
             var insertEwSongIdsRequest = new SeppoService.InsertEwSongIdsRequest();
-            insertEwSongIdsRequest.EwDatabaseId = ewDatabaseId;
+            insertEwSongIdsRequest.EwDatabaseKey = ewDatabaseKey;
             foreach(var id in ids)
             {
                 insertEwSongIdsRequest.VariationIdEwSongIds.Add(new SeppoService.VariationIdEwSongId
@@ -75,10 +79,27 @@ namespace common_matias
                     VariationId = id.variationId
                 });
             }
+
+            if (links != null) {
+                foreach (var link in links)
+                {
+                    insertEwSongIdsRequest.NewSongIds.Add(new SeppoService.NewSongId
+                    {
+                        OldEwSongId = (uint)link.Key,
+                        NewEwSongId = (uint)link.Value
+                    });
+                }
+            }
+
             var res = client.insertEwSongIds(insertEwSongIdsRequest);
         }
 
-        public async Task<SyncEwDatabaseResponse> SyncEwDatabase(UInt32 EwDatabaseId, IEnumerable<Song> songs)
+        public void ChangeSongIds(string ewDatabaseKey, List<NewSongId> newSongIds)
+        {
+
+        }
+
+        public async Task<SyncEwDatabaseResponse> SyncEwDatabase(string EwDatabaseKey, IEnumerable<Song> songs)
         {
             var ewSongs = new RepeatedField<EwSong>();
 
@@ -100,7 +121,7 @@ namespace common_matias
 
             var request = new SyncEwDatabaseRequest()
             {
-                EwDatabaseId = EwDatabaseId
+                EwDatabaseKey = EwDatabaseKey
             };
 
             request.EwSongs.Add(ewSongs);

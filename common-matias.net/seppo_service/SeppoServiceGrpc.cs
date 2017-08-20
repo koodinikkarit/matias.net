@@ -31,6 +31,8 @@ namespace SeppoService {
     static readonly grpc::Marshaller<global::SeppoService.FetchEwDatabaseByIdResponse> __Marshaller_FetchEwDatabaseByIdResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SeppoService.FetchEwDatabaseByIdResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SeppoService.FetchVariationsBySongDatabaseIdRequest> __Marshaller_FetchVariationsBySongDatabaseIdRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SeppoService.FetchVariationsBySongDatabaseIdRequest.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SeppoService.FetchVariationsBySongDatabaseIdResponse> __Marshaller_FetchVariationsBySongDatabaseIdResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SeppoService.FetchVariationsBySongDatabaseIdResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SeppoService.FetchVariationTextByVariationIdRequest> __Marshaller_FetchVariationTextByVariationIdRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SeppoService.FetchVariationTextByVariationIdRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SeppoService.FetchVariationTextByVariationIdResponse> __Marshaller_FetchVariationTextByVariationIdResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SeppoService.FetchVariationTextByVariationIdResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SeppoService.CreateVariationRequest> __Marshaller_CreateVariationRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SeppoService.CreateVariationRequest.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SeppoService.CreateVariationResponse> __Marshaller_CreateVariationResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SeppoService.CreateVariationResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SeppoService.EditVariationRequest> __Marshaller_EditVariationRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SeppoService.EditVariationRequest.Parser.ParseFrom);
@@ -57,6 +59,8 @@ namespace SeppoService {
     static readonly grpc::Marshaller<global::SeppoService.SyncEwDatabaseResponse> __Marshaller_SyncEwDatabaseResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SeppoService.SyncEwDatabaseResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SeppoService.InsertEwSongIdsRequest> __Marshaller_InsertEwSongIdsRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SeppoService.InsertEwSongIdsRequest.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::SeppoService.InsertEwSongIdsResponse> __Marshaller_InsertEwSongIdsResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SeppoService.InsertEwSongIdsResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SeppoService.ChangeEwSongIdsRequest> __Marshaller_ChangeEwSongIdsRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SeppoService.ChangeEwSongIdsRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::SeppoService.ChangeEwSongIdsResponse> __Marshaller_ChangeEwSongIdsResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::SeppoService.ChangeEwSongIdsResponse.Parser.ParseFrom);
 
     static readonly grpc::Method<global::SeppoService.FetchVariationByIdRequest, global::SeppoService.FetchVariationByIdResponse> __Method_fetchVariationById = new grpc::Method<global::SeppoService.FetchVariationByIdRequest, global::SeppoService.FetchVariationByIdResponse>(
         grpc::MethodType.Unary,
@@ -113,6 +117,13 @@ namespace SeppoService {
         "fetchVariationsBySongDatabaseId",
         __Marshaller_FetchVariationsBySongDatabaseIdRequest,
         __Marshaller_FetchVariationsBySongDatabaseIdResponse);
+
+    static readonly grpc::Method<global::SeppoService.FetchVariationTextByVariationIdRequest, global::SeppoService.FetchVariationTextByVariationIdResponse> __Method_fetchVariationTextByVariationId = new grpc::Method<global::SeppoService.FetchVariationTextByVariationIdRequest, global::SeppoService.FetchVariationTextByVariationIdResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "fetchVariationTextByVariationId",
+        __Marshaller_FetchVariationTextByVariationIdRequest,
+        __Marshaller_FetchVariationTextByVariationIdResponse);
 
     static readonly grpc::Method<global::SeppoService.CreateVariationRequest, global::SeppoService.CreateVariationResponse> __Method_createVariation = new grpc::Method<global::SeppoService.CreateVariationRequest, global::SeppoService.CreateVariationResponse>(
         grpc::MethodType.Unary,
@@ -205,6 +216,13 @@ namespace SeppoService {
         __Marshaller_InsertEwSongIdsRequest,
         __Marshaller_InsertEwSongIdsResponse);
 
+    static readonly grpc::Method<global::SeppoService.ChangeEwSongIdsRequest, global::SeppoService.ChangeEwSongIdsResponse> __Method_changeEwSongIds = new grpc::Method<global::SeppoService.ChangeEwSongIdsRequest, global::SeppoService.ChangeEwSongIdsResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "changeEwSongIds",
+        __Marshaller_ChangeEwSongIdsRequest,
+        __Marshaller_ChangeEwSongIdsResponse);
+
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
     {
@@ -250,6 +268,11 @@ namespace SeppoService {
       }
 
       public virtual global::System.Threading.Tasks.Task<global::SeppoService.FetchVariationsBySongDatabaseIdResponse> fetchVariationsBySongDatabaseId(global::SeppoService.FetchVariationsBySongDatabaseIdRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::SeppoService.FetchVariationTextByVariationIdResponse> fetchVariationTextByVariationId(global::SeppoService.FetchVariationTextByVariationIdRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -315,6 +338,11 @@ namespace SeppoService {
       }
 
       public virtual global::System.Threading.Tasks.Task<global::SeppoService.InsertEwSongIdsResponse> insertEwSongIds(global::SeppoService.InsertEwSongIdsRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::SeppoService.ChangeEwSongIdsResponse> changeEwSongIds(global::SeppoService.ChangeEwSongIdsRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -463,6 +491,22 @@ namespace SeppoService {
       public virtual grpc::AsyncUnaryCall<global::SeppoService.FetchVariationsBySongDatabaseIdResponse> fetchVariationsBySongDatabaseIdAsync(global::SeppoService.FetchVariationsBySongDatabaseIdRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_fetchVariationsBySongDatabaseId, null, options, request);
+      }
+      public virtual global::SeppoService.FetchVariationTextByVariationIdResponse fetchVariationTextByVariationId(global::SeppoService.FetchVariationTextByVariationIdRequest request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+      {
+        return fetchVariationTextByVariationId(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::SeppoService.FetchVariationTextByVariationIdResponse fetchVariationTextByVariationId(global::SeppoService.FetchVariationTextByVariationIdRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_fetchVariationTextByVariationId, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::SeppoService.FetchVariationTextByVariationIdResponse> fetchVariationTextByVariationIdAsync(global::SeppoService.FetchVariationTextByVariationIdRequest request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+      {
+        return fetchVariationTextByVariationIdAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::SeppoService.FetchVariationTextByVariationIdResponse> fetchVariationTextByVariationIdAsync(global::SeppoService.FetchVariationTextByVariationIdRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_fetchVariationTextByVariationId, null, options, request);
       }
       public virtual global::SeppoService.CreateVariationResponse createVariation(global::SeppoService.CreateVariationRequest request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
       {
@@ -672,6 +716,22 @@ namespace SeppoService {
       {
         return CallInvoker.AsyncUnaryCall(__Method_insertEwSongIds, null, options, request);
       }
+      public virtual global::SeppoService.ChangeEwSongIdsResponse changeEwSongIds(global::SeppoService.ChangeEwSongIdsRequest request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+      {
+        return changeEwSongIds(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::SeppoService.ChangeEwSongIdsResponse changeEwSongIds(global::SeppoService.ChangeEwSongIdsRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_changeEwSongIds, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::SeppoService.ChangeEwSongIdsResponse> changeEwSongIdsAsync(global::SeppoService.ChangeEwSongIdsRequest request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+      {
+        return changeEwSongIdsAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::SeppoService.ChangeEwSongIdsResponse> changeEwSongIdsAsync(global::SeppoService.ChangeEwSongIdsRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_changeEwSongIds, null, options, request);
+      }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       protected override SeppoClient NewInstance(ClientBaseConfiguration configuration)
       {
@@ -692,6 +752,7 @@ namespace SeppoService {
           .AddMethod(__Method_fetchEwDatabases, serviceImpl.fetchEwDatabases)
           .AddMethod(__Method_fetchEwDatabaseById, serviceImpl.fetchEwDatabaseById)
           .AddMethod(__Method_fetchVariationsBySongDatabaseId, serviceImpl.fetchVariationsBySongDatabaseId)
+          .AddMethod(__Method_fetchVariationTextByVariationId, serviceImpl.fetchVariationTextByVariationId)
           .AddMethod(__Method_createVariation, serviceImpl.createVariation)
           .AddMethod(__Method_editVariation, serviceImpl.editVariation)
           .AddMethod(__Method_removeVariation, serviceImpl.removeVariation)
@@ -704,7 +765,8 @@ namespace SeppoService {
           .AddMethod(__Method_addVariationToSongDatabase, serviceImpl.addVariationToSongDatabase)
           .AddMethod(__Method_removeVariationFromSongDatabase, serviceImpl.removeVariationFromSongDatabase)
           .AddMethod(__Method_syncEwDatabase, serviceImpl.syncEwDatabase)
-          .AddMethod(__Method_insertEwSongIds, serviceImpl.insertEwSongIds).Build();
+          .AddMethod(__Method_insertEwSongIds, serviceImpl.insertEwSongIds)
+          .AddMethod(__Method_changeEwSongIds, serviceImpl.changeEwSongIds).Build();
     }
 
   }

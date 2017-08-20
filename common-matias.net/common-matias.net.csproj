@@ -82,6 +82,7 @@
     <Compile Include="DatabaseLockStateChangedEventArgs.cs" />
     <Compile Include="EwDatabase.cs" />
     <Compile Include="Matias.cs" />
+    <Compile Include="NewSongId.cs" />
     <Compile Include="SeppoClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RichTextStripper.cs" />
@@ -94,7 +95,9 @@
     <Compile Include="seppo_service\SongDatabase.cs" />
     <Compile Include="seppo_service\SongDatabaseVariation.cs" />
     <Compile Include="seppo_service\Variation.cs" />
+    <Compile Include="seppo_service\VariationText.cs" />
     <Compile Include="Song.cs" />
+    <Compile Include="SongIdsChangedEventArgs.cs" />
     <Compile Include="SyncEwDatabaseResponse.cs" />
     <Compile Include="VariationIdEwSongId.cs" />
   </ItemGroup>

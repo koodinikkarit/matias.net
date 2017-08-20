@@ -9,6 +9,7 @@ import "ew_song.proto";
 import "ew_verse.proto";
 
 import "variation.proto";
+import "variation_text.proto";
 
 
 service Seppo {
@@ -25,6 +26,8 @@ service Seppo {
 	rpc fetchEwDatabaseById(FetchEwDatabaseByIdRequest) returns(FetchEwDatabaseByIdResponse) {}
 
 	rpc fetchVariationsBySongDatabaseId(FetchVariationsBySongDatabaseIdRequest) returns(FetchVariationsBySongDatabaseIdResponse) {}
+
+	rpc fetchVariationTextByVariationId(FetchVariationTextByVariationIdRequest) returns(FetchVariationTextByVariationIdResponse) {}
 
 	// Mutations
 
@@ -45,4 +48,5 @@ service Seppo {
 
 	rpc syncEwDatabase(SyncEwDatabaseRequest) returns(SyncEwDatabaseResponse) {}
 	rpc insertEwSongIds(InsertEwSongIdsRequest) returns(InsertEwSongIdsResponse) {}
+	rpc changeEwSongIds(ChangeEwSongIdsRequest) returns(ChangeEwSongIdsResponse) {}
 }

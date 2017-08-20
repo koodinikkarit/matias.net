@@ -14,7 +14,8 @@ namespace common_matias
         SQLiteConnection songsConnection;
         SQLiteConnection songWordsConnection;
 
-        public event EventHandler<DatabaseLockStateChangedEventArgs> databaseLockStateChanged;
+        public event EventHandler<DatabaseLockStateChangedEventArgs> DatabaseLockStateChanged;
+        public event EventHandler<SongIdsChangedEventArgs> SongIdsChanged;
 
         private FileSystemWatcher watcher;
 
@@ -22,9 +23,10 @@ namespace common_matias
 
         public string DatabasePath
         {
-            get { return databasePath; }
+            get {
+                return databasePath;
+            }
             set {
-                Console.WriteLine("Songspath" + value + "\\Data\\Songs.db");
                 databasePath = value;
                 songsConnection = new SQLiteConnection("Data Source=" + value + "\\Data\\Songs.db;Version=3;");
                 songWordsConnection = new SQLiteConnection("Data Source=" + value + "\\Data\\SongWords.db;Version=3;");
@@ -34,12 +36,24 @@ namespace common_matias
                 songsConnection.Update += SongsConnection_Update;
                 watcher.Path = value + "/Locks";
                 watcher.EnableRaisingEvents = true;
+
+                if (File.Exists(value + "/Locks/Client (1).ulck"))
+                {
+                    Lockstate = true;
+                    if (DatabaseLockStateChanged != null)
+                    {
+                        DatabaseLockStateChanged(this, new DatabaseLockStateChangedEventArgs
+                        {
+                            lockState = true
+                        });
+                    }
+                }
             }
         }
 
         private void SongsConnection_Update(object sender, UpdateEventArgs e)
         {
-            Console.WriteLine("Update songs");
+
         }
 
         public EwDatabase()
@@ -61,9 +75,9 @@ namespace common_matias
             if (e.Name == "Client (1).ulck")
             {
                 Lockstate = true;
-                if (databaseLockStateChanged != null)
+                if (DatabaseLockStateChanged != null)
                 {
-                    databaseLockStateChanged(this, new DatabaseLockStateChangedEventArgs
+                    DatabaseLockStateChanged(this, new DatabaseLockStateChangedEventArgs
                     {
                         lockState = true
                     });
@@ -76,9 +90,9 @@ namespace common_matias
             if (e.Name == "Client (1).ulck")
             {
                 Lockstate = false;
-                if (databaseLockStateChanged != null)
+                if (DatabaseLockStateChanged != null)
                 {
-                    databaseLockStateChanged(this, new DatabaseLockStateChangedEventArgs
+                    DatabaseLockStateChanged(this, new DatabaseLockStateChangedEventArgs
                     {
                         lockState = false
                     });
@@ -111,7 +125,8 @@ namespace common_matias
                         copyright = songsReader["copyright"] != System.DBNull.Value ? (string)songsReader["copyright"] : "",
                         administrator = songsReader["administrator"] != System.DBNull.Value ? (string)songsReader["administrator"] : "",
                         description = songsReader["description"] != System.DBNull.Value ? (string)songsReader["description"] : "",
-                        tags = songsReader["tags"] != System.DBNull.Value ? (string)songsReader["tags"] : ""
+                        tags = songsReader["tags"] != System.DBNull.Value ? (string)songsReader["tags"] : "",
+                        text = ""                        
                     };
 
                     dSongs[(int)song.id] = song;
@@ -233,14 +248,7 @@ namespace common_matias
                     insertSongCommand.Parameters.Add(new SQLiteParameter("@description", song.description));
                     insertSongCommand.Parameters.Add(new SQLiteParameter("@tags", song.tags));
 
-                    try
-                    {
-                        insertSongCommand.ExecuteNonQuery(System.Data.CommandBehavior.SingleRow);
-                    } catch(Exception e)
-                    {
-                        fixDatabase();
-                        insertSongCommand.ExecuteNonQuery(System.Data.CommandBehavior.SingleRow);
-                    }
+                    insertSongCommand.ExecuteNonQuery(System.Data.CommandBehavior.SingleRow);
 
                     var songId = songsConnection.LastInsertRowId;
 
@@ -268,15 +276,7 @@ namespace common_matias
             {
                 var removeSongCommand = new SQLiteCommand("delete from song where rowid = @rowid", songsConnection);
                 removeSongCommand.Parameters.Add(new SQLiteParameter("@rowid", id));
-                try
-                {
-                    removeSongCommand.ExecuteNonQuery();
-                }
-                catch(Exception e)
-                {
-                    fixDatabase();
-                    removeSongCommand.ExecuteNonQuery();
-                }
+                removeSongCommand.ExecuteNonQuery();
 
                 var removeSongWordsCommand = new SQLiteCommand("delete from word where song_id = @song_id", songWordsConnection);
                 removeSongWordsCommand.Parameters.Add(new SQLiteParameter("@song_id", id));
@@ -284,26 +284,93 @@ namespace common_matias
             }
         }
 
-        public void fixDatabase()
+        public Dictionary<int, int> fixDatabase()
         {
+            Console.WriteLine("fixing database");
             if (songsConnection.State == System.Data.ConnectionState.Open && songWordsConnection.State == System.Data.ConnectionState.Open)
             {
-                var songs = getSongs();
+                var fetchSongsCommand = new SQLiteCommand("select * from song", songsConnection);
+                var fetchSongWordsCommand = new SQLiteCommand("select * from word", songWordsConnection);
+                SQLiteDataReader songsReader = fetchSongsCommand.ExecuteReader();
+
+                Dictionary<int, Song> dbSongs = new Dictionary<int, Song>();
+
+                while (songsReader.Read())
+                {
+
+                    var song = new Song()
+                    {
+                        id = int.Parse(songsReader["rowid"].ToString()),
+                        title = songsReader["title"] != System.DBNull.Value ? (string)songsReader["title"] : "",
+                        author = songsReader["author"] != System.DBNull.Value ? (string)songsReader["author"] : "",
+                        copyright = songsReader["copyright"] != System.DBNull.Value ? (string)songsReader["copyright"] : "",
+                        administrator = songsReader["administrator"] != System.DBNull.Value ? (string)songsReader["administrator"] : "",
+                        description = songsReader["description"] != System.DBNull.Value ? (string)songsReader["description"] : "",
+                        tags = songsReader["tags"] != System.DBNull.Value ? (string)songsReader["tags"] : ""
+                    };
+
+                    dbSongs[(int)song.id] = song;
+                }
+
+                SQLiteDataReader songWordsReader = fetchSongWordsCommand.ExecuteReader();
+
+                while (songWordsReader.Read())
+                {
+                    Song song;
+
+                    var id = int.Parse(songWordsReader["song_id"].ToString());
+
+                    if (dbSongs.ContainsKey(id)) song = dbSongs[id];
+                    else
+                    {
+                        song = new Song()
+                        {
+                            id = id
+                        };
+                        dbSongs[id] = song;
+                    }
+
+                    song.text = songWordsReader["words"] != System.DBNull.Value ? RichTextStripper.StripRichTextFormat((string)songWordsReader["words"]) : "";
+                }
 
                 var removeSongWords = new SQLiteCommand("delete from word", songWordsConnection);
                 removeSongWords.ExecuteNonQuery();
-
                 var removeSongTableCommand = new SQLiteCommand("DROP TABLE song", songsConnection);
                 removeSongTableCommand.ExecuteNonQuery();
                 var createSongTableCommand = new SQLiteCommand("CREATE TABLE song (rowid integer PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, song_item_uid text UNIQUE, song_rev_uid text, song_uid text, title text NOT NULL, author text, copyright text, administrator text, description text, tags text, reference_number text, vendor_id integer, presentation_id integer, layout_revision integer DEFAULT 1, revision integer DEFAULT 1 )", songsConnection);
-                createSongTableCommand.ExecuteNonQuery();                
+                createSongTableCommand.ExecuteNonQuery();
 
-                foreach(var song in songs)
+                Dictionary<int, int> newidToOldId = new Dictionary<int, int>();
+                Dictionary<int, int> oldidToNewId = new Dictionary<int, int>();
+
+                foreach(var item in dbSongs)
                 {
-                    song.id = 0;
-                    updateOrCreateSong(song);
+                    var songUid = Guid.NewGuid();
+                    var insertSongCommand = new SQLiteCommand("insert into song (song_item_uid, song_uid, title, author, copyright, administrator, description, tags) values(@song_item_uid, @song_uid, @title, @author, @copyright, @administrator, @description, @tags)", songsConnection);
+                    insertSongCommand.Parameters.Add(new SQLiteParameter("@song_item_uid", songUid));
+                    insertSongCommand.Parameters.Add(new SQLiteParameter("@song_uid", songUid));
+                    insertSongCommand.Parameters.Add(new SQLiteParameter("@title", item.Value.title));
+                    insertSongCommand.Parameters.Add(new SQLiteParameter("@author", item.Value.author));
+                    insertSongCommand.Parameters.Add(new SQLiteParameter("@copyright", item.Value.copyright));
+                    insertSongCommand.Parameters.Add(new SQLiteParameter("@administrator", item.Value.administrator));
+                    insertSongCommand.Parameters.Add(new SQLiteParameter("@description", item.Value.description));
+                    insertSongCommand.Parameters.Add(new SQLiteParameter("@tags", item.Value.tags));
+                    insertSongCommand.ExecuteNonQuery(System.Data.CommandBehavior.SingleRow);
+                    var songId = songsConnection.LastInsertRowId;
+                    oldidToNewId[item.Key] = (int) songId;
+
+                    string words = @"{\rtf1{\pard " + item.Value.text.Replace("\n", @"\par ") + "}}";
+
+                    var insertSongWordsCommand = new SQLiteCommand("insert into word (song_id, words) values (@song_id, @words)", songWordsConnection);
+                    insertSongWordsCommand.Parameters.Add(new SQLiteParameter("@song_id", songId.ToString()));
+                    insertSongWordsCommand.Parameters.Add(new SQLiteParameter("@words", words));
+
+                    insertSongWordsCommand.ExecuteNonQuery();
                 }
+
+                return oldidToNewId;
             }
+            return null;
         }
     }
 }

@@ -23,33 +23,33 @@ namespace SeppoService {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChFld19kYXRhYmFzZS5wcm90bxIMU2VwcG9TZXJ2aWNlGg1ld19zb25nLnBy",
-            "b3RvIk8KCkV3RGF0YWJhc2USCgoCaWQYASABKA0SDAoEbmFtZRgCIAEoCRIW",
-            "Cg5zb25nRGF0YWJhc2VJZBgDIAEoDRIPCgd2ZXJzaW9uGAQgASgEIkYKFUV3",
-            "RGF0YWJhc2VzQ29ubmVjdGlvbhItCgtld0RhdGFiYXNlcxgBIAMoCzIYLlNl",
-            "cHBvU2VydmljZS5Fd0RhdGFiYXNlIjUKHUxpc3RlbkZvckNoYW5nZWRFd1Nv",
-            "bmdSZXF1ZXN0EhQKDGV3RGF0YWJhc2VJZBgBIAEoDSIZChdGZXRjaEV3RGF0",
-            "YWJhc2VzUmVxdWVzdCJJChhGZXRjaEV3RGF0YWJhc2VzUmVzcG9uc2USLQoL",
-            "ZXdEYXRhYmFzZXMYASADKAsyGC5TZXBwb1NlcnZpY2UuRXdEYXRhYmFzZSIz",
-            "ChpGZXRjaEV3RGF0YWJhc2VCeUlkUmVxdWVzdBIVCg1ld0RhdGFiYXNlSWRz",
-            "GAEgAygNIkwKG0ZldGNoRXdEYXRhYmFzZUJ5SWRSZXNwb25zZRItCgtld0Rh",
-            "dGFiYXNlcxgBIAMoCzIYLlNlcHBvU2VydmljZS5Fd0RhdGFiYXNlIj8KF0Ny",
-            "ZWF0ZUV3RGF0YWJhc2VSZXF1ZXN0EhYKDnNvbmdEYXRhYmFzZUlkGAEgASgN",
-            "EgwKBG5hbWUYAiABKAkiSAoYQ3JlYXRlRXdEYXRhYmFzZVJlc3BvbnNlEiwK",
-            "CmV3RGF0YWJhc2UYASABKAsyGC5TZXBwb1NlcnZpY2UuRXdEYXRhYmFzZSJT",
-            "ChVFZGl0RXdEYXRhYmFzZVJlcXVlc3QSFAoMZXdEYXRhYmFzZUlkGAEgASgN",
-            "EgwKBG5hbWUYAiABKAkSFgoOc29uZ0RhdGFiYXNlSWQYAyABKA0iRgoWRWRp",
-            "dEV3RGF0YWJhc2VSZXNwb25zZRIsCgpld0RhdGFiYXNlGAEgASgLMhguU2Vw",
-            "cG9TZXJ2aWNlLkV3RGF0YWJhc2UiLwoXUmVtb3ZlRXdEYXRhYmFzZVJlcXVl",
-            "c3QSFAoMZXdEYXRhYmFzZUlkGAEgASgNIhoKGFJlbW92ZUV3RGF0YWJhc2VS",
-            "ZXNwb25zZSJUChVTeW5jRXdEYXRhYmFzZVJlcXVlc3QSFAoMRXdEYXRhYmFz",
-            "ZUlkGAEgASgNEiUKB2V3U29uZ3MYAiADKAsyFC5TZXBwb1NlcnZpY2UuRXdT",
-            "b25nIlgKFlN5bmNFd0RhdGFiYXNlUmVzcG9uc2USJQoHZXdTb25ncxgBIAMo",
-            "CzIULlNlcHBvU2VydmljZS5Fd1NvbmcSFwoPcmVtb3ZlRXdTb25nSWRzGAIg",
-            "AygNYgZwcm90bzM="));
+            "b3RvIlwKCkV3RGF0YWJhc2USCgoCaWQYASABKA0SDAoEbmFtZRgCIAEoCRIW",
+            "Cg5zb25nRGF0YWJhc2VJZBgDIAEoDRIPCgd2ZXJzaW9uGAQgASgEEgsKA2tl",
+            "eRgFIAEoCSJGChVFd0RhdGFiYXNlc0Nvbm5lY3Rpb24SLQoLZXdEYXRhYmFz",
+            "ZXMYASADKAsyGC5TZXBwb1NlcnZpY2UuRXdEYXRhYmFzZSI1Ch1MaXN0ZW5G",
+            "b3JDaGFuZ2VkRXdTb25nUmVxdWVzdBIUCgxld0RhdGFiYXNlSWQYASABKA0i",
+            "GQoXRmV0Y2hFd0RhdGFiYXNlc1JlcXVlc3QiSQoYRmV0Y2hFd0RhdGFiYXNl",
+            "c1Jlc3BvbnNlEi0KC2V3RGF0YWJhc2VzGAEgAygLMhguU2VwcG9TZXJ2aWNl",
+            "LkV3RGF0YWJhc2UiMwoaRmV0Y2hFd0RhdGFiYXNlQnlJZFJlcXVlc3QSFQoN",
+            "ZXdEYXRhYmFzZUlkcxgBIAMoDSJMChtGZXRjaEV3RGF0YWJhc2VCeUlkUmVz",
+            "cG9uc2USLQoLZXdEYXRhYmFzZXMYASADKAsyGC5TZXBwb1NlcnZpY2UuRXdE",
+            "YXRhYmFzZSI/ChdDcmVhdGVFd0RhdGFiYXNlUmVxdWVzdBIWCg5zb25nRGF0",
+            "YWJhc2VJZBgBIAEoDRIMCgRuYW1lGAIgASgJIkgKGENyZWF0ZUV3RGF0YWJh",
+            "c2VSZXNwb25zZRIsCgpld0RhdGFiYXNlGAEgASgLMhguU2VwcG9TZXJ2aWNl",
+            "LkV3RGF0YWJhc2UiUwoVRWRpdEV3RGF0YWJhc2VSZXF1ZXN0EhQKDGV3RGF0",
+            "YWJhc2VJZBgBIAEoDRIMCgRuYW1lGAIgASgJEhYKDnNvbmdEYXRhYmFzZUlk",
+            "GAMgASgNIkYKFkVkaXRFd0RhdGFiYXNlUmVzcG9uc2USLAoKZXdEYXRhYmFz",
+            "ZRgBIAEoCzIYLlNlcHBvU2VydmljZS5Fd0RhdGFiYXNlIi8KF1JlbW92ZUV3",
+            "RGF0YWJhc2VSZXF1ZXN0EhQKDGV3RGF0YWJhc2VJZBgBIAEoDSIaChhSZW1v",
+            "dmVFd0RhdGFiYXNlUmVzcG9uc2UiVQoVU3luY0V3RGF0YWJhc2VSZXF1ZXN0",
+            "EhUKDWV3RGF0YWJhc2VLZXkYASABKAkSJQoHZXdTb25ncxgCIAMoCzIULlNl",
+            "cHBvU2VydmljZS5Fd1NvbmciWAoWU3luY0V3RGF0YWJhc2VSZXNwb25zZRIl",
+            "Cgdld1NvbmdzGAEgAygLMhQuU2VwcG9TZXJ2aWNlLkV3U29uZxIXCg9yZW1v",
+            "dmVFd1NvbmdJZHMYAiADKA1iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::SeppoService.EwSongReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::SeppoService.EwDatabase), global::SeppoService.EwDatabase.Parser, new[]{ "Id", "Name", "SongDatabaseId", "Version" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SeppoService.EwDatabase), global::SeppoService.EwDatabase.Parser, new[]{ "Id", "Name", "SongDatabaseId", "Version", "Key" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SeppoService.EwDatabasesConnection), global::SeppoService.EwDatabasesConnection.Parser, new[]{ "EwDatabases" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SeppoService.ListenForChangedEwSongRequest), global::SeppoService.ListenForChangedEwSongRequest.Parser, new[]{ "EwDatabaseId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SeppoService.FetchEwDatabasesRequest), global::SeppoService.FetchEwDatabasesRequest.Parser, null, null, null, null),
@@ -62,7 +62,7 @@ namespace SeppoService {
             new pbr::GeneratedClrTypeInfo(typeof(global::SeppoService.EditEwDatabaseResponse), global::SeppoService.EditEwDatabaseResponse.Parser, new[]{ "EwDatabase" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SeppoService.RemoveEwDatabaseRequest), global::SeppoService.RemoveEwDatabaseRequest.Parser, new[]{ "EwDatabaseId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SeppoService.RemoveEwDatabaseResponse), global::SeppoService.RemoveEwDatabaseResponse.Parser, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SeppoService.SyncEwDatabaseRequest), global::SeppoService.SyncEwDatabaseRequest.Parser, new[]{ "EwDatabaseId", "EwSongs" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SeppoService.SyncEwDatabaseRequest), global::SeppoService.SyncEwDatabaseRequest.Parser, new[]{ "EwDatabaseKey", "EwSongs" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SeppoService.SyncEwDatabaseResponse), global::SeppoService.SyncEwDatabaseResponse.Parser, new[]{ "EwSongs", "RemoveEwSongIds" }, null, null, null)
           }));
     }
@@ -98,6 +98,7 @@ namespace SeppoService {
       name_ = other.name_;
       songDatabaseId_ = other.songDatabaseId_;
       version_ = other.version_;
+      key_ = other.key_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -149,6 +150,17 @@ namespace SeppoService {
       }
     }
 
+    /// <summary>Field number for the "key" field.</summary>
+    public const int KeyFieldNumber = 5;
+    private string key_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Key {
+      get { return key_; }
+      set {
+        key_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as EwDatabase);
@@ -166,6 +178,7 @@ namespace SeppoService {
       if (Name != other.Name) return false;
       if (SongDatabaseId != other.SongDatabaseId) return false;
       if (Version != other.Version) return false;
+      if (Key != other.Key) return false;
       return true;
     }
 
@@ -176,6 +189,7 @@ namespace SeppoService {
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (SongDatabaseId != 0) hash ^= SongDatabaseId.GetHashCode();
       if (Version != 0UL) hash ^= Version.GetHashCode();
+      if (Key.Length != 0) hash ^= Key.GetHashCode();
       return hash;
     }
 
@@ -202,6 +216,10 @@ namespace SeppoService {
         output.WriteRawTag(32);
         output.WriteUInt64(Version);
       }
+      if (Key.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(Key);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -218,6 +236,9 @@ namespace SeppoService {
       }
       if (Version != 0UL) {
         size += 1 + pb::CodedOutputStream.ComputeUInt64Size(Version);
+      }
+      if (Key.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Key);
       }
       return size;
     }
@@ -238,6 +259,9 @@ namespace SeppoService {
       }
       if (other.Version != 0UL) {
         Version = other.Version;
+      }
+      if (other.Key.Length != 0) {
+        Key = other.Key;
       }
     }
 
@@ -263,6 +287,10 @@ namespace SeppoService {
           }
           case 32: {
             Version = input.ReadUInt64();
+            break;
+          }
+          case 42: {
+            Key = input.ReadString();
             break;
           }
         }
@@ -1708,7 +1736,7 @@ namespace SeppoService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public SyncEwDatabaseRequest(SyncEwDatabaseRequest other) : this() {
-      ewDatabaseId_ = other.ewDatabaseId_;
+      ewDatabaseKey_ = other.ewDatabaseKey_;
       ewSongs_ = other.ewSongs_.Clone();
     }
 
@@ -1717,14 +1745,14 @@ namespace SeppoService {
       return new SyncEwDatabaseRequest(this);
     }
 
-    /// <summary>Field number for the "EwDatabaseId" field.</summary>
-    public const int EwDatabaseIdFieldNumber = 1;
-    private uint ewDatabaseId_;
+    /// <summary>Field number for the "ewDatabaseKey" field.</summary>
+    public const int EwDatabaseKeyFieldNumber = 1;
+    private string ewDatabaseKey_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public uint EwDatabaseId {
-      get { return ewDatabaseId_; }
+    public string EwDatabaseKey {
+      get { return ewDatabaseKey_; }
       set {
-        ewDatabaseId_ = value;
+        ewDatabaseKey_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -1751,7 +1779,7 @@ namespace SeppoService {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (EwDatabaseId != other.EwDatabaseId) return false;
+      if (EwDatabaseKey != other.EwDatabaseKey) return false;
       if(!ewSongs_.Equals(other.ewSongs_)) return false;
       return true;
     }
@@ -1759,7 +1787,7 @@ namespace SeppoService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (EwDatabaseId != 0) hash ^= EwDatabaseId.GetHashCode();
+      if (EwDatabaseKey.Length != 0) hash ^= EwDatabaseKey.GetHashCode();
       hash ^= ewSongs_.GetHashCode();
       return hash;
     }
@@ -1771,9 +1799,9 @@ namespace SeppoService {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (EwDatabaseId != 0) {
-        output.WriteRawTag(8);
-        output.WriteUInt32(EwDatabaseId);
+      if (EwDatabaseKey.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(EwDatabaseKey);
       }
       ewSongs_.WriteTo(output, _repeated_ewSongs_codec);
     }
@@ -1781,8 +1809,8 @@ namespace SeppoService {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (EwDatabaseId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(EwDatabaseId);
+      if (EwDatabaseKey.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(EwDatabaseKey);
       }
       size += ewSongs_.CalculateSize(_repeated_ewSongs_codec);
       return size;
@@ -1793,8 +1821,8 @@ namespace SeppoService {
       if (other == null) {
         return;
       }
-      if (other.EwDatabaseId != 0) {
-        EwDatabaseId = other.EwDatabaseId;
+      if (other.EwDatabaseKey.Length != 0) {
+        EwDatabaseKey = other.EwDatabaseKey;
       }
       ewSongs_.Add(other.ewSongs_);
     }
@@ -1807,8 +1835,8 @@ namespace SeppoService {
           default:
             input.SkipLastField();
             break;
-          case 8: {
-            EwDatabaseId = input.ReadUInt32();
+          case 10: {
+            EwDatabaseKey = input.ReadString();
             break;
           }
           case 18: {
