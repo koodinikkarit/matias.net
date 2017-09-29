@@ -52,10 +52,10 @@ namespace common_matias
                 //var a = new Grpc.Core.SslCredentials()
                 //var channelCredentials = new SslCredentials(File.ReadAllText("ssl/ca.crt"));
                 //var channelCredentials = new SslCredentials()
-                var cacert = File.ReadAllText("ssl/ca.crt");
-                var clientcert = File.ReadAllText("ssl/client.crt");
-                var clientkey = File.ReadAllText("ssl/client.key");
-                var ssl = new SslCredentials(cacert, new KeyCertificatePair(clientcert, clientkey));
+                //var cacert = File.ReadAllText("ssl/ca.crt");
+                //var clientcert = File.ReadAllText("ssl/client.crt");
+                //var clientkey = File.ReadAllText("ssl/client.key");
+                //var ssl = new SslCredentials(cacert, new KeyCertificatePair(clientcert, clientkey));
                 channel = new Channel(seppoIp, (int) seppoPort, ChannelCredentials.Insecure);
                 //channel = new Channel(matiasServerIp + ":" + matiasServerPort, ssl);
                 client = new SeppoService.Seppo.SeppoClient(channel);

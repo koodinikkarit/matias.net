@@ -75,6 +75,7 @@ namespace matias_console.net
             else
             {
                 Console.WriteLine("Config ei loytynyt tai on virheellinen...");
+                Console.WriteLine("Aseta se kansioon " + Directory.GetCurrentDirectory());
                 Console.ReadKey();
             }
         }
