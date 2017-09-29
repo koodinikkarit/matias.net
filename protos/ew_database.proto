@@ -1,69 +1,45 @@
 syntax = "proto3";
 
-package SeppoService;
+package MatiasService;
 
-import "ew_song.proto";
-
-message EwDatabase {
+message EwSong {
 	uint32 id = 1;
-	string name = 2;
-	uint32 songDatabaseId = 3;
-	uint64 version = 4;
-	string key = 5;
+	string title = 2;
+	string author = 3;
+	string copyright = 4;
+	string administrator = 5;
+	string description = 6;
+	string tags = 7;
+	string text = 8;
+	uint32 variationId = 9;
 }
 
-message EwDatabasesConnection {
-	repeated EwDatabase ewDatabases = 1;
+message VariationIdEwSongId {
+	uint32 ewSongId = 1;
+	uint32 variationId = 2;	
 }
 
-// Queries
-
-message ListenForChangedEwSongRequest {
-	uint32 ewDatabaseId = 1;
+message NewSongId {
+	uint32 oldEwSongId = 1;
+	uint32 newEwSongId = 2;
 }
 
-message FetchEwDatabasesRequest {
+message InsertEwSongIdsRequest {
+	string ewDatabaseKey = 1;
+	repeated VariationIdEwSongId variationIdEwSongIds = 2;
+	repeated NewSongId newSongIds = 3;
+}
+
+message InsertEwSongIdsResponse {
 
 }
 
-message FetchEwDatabasesResponse {
-	repeated EwDatabase ewDatabases = 1;
+message ChangeEwSongIdsRequest {
+	string ewDatabaseKey = 1;
+	repeated NewSongId newSongIds = 2;
 }
 
-message FetchEwDatabaseByIdRequest {
-	repeated uint32 ewDatabaseIds = 1;
-}
-
-message FetchEwDatabaseByIdResponse {
-	repeated EwDatabase ewDatabases = 1;
-}
-
-// Mutations
-
-message CreateEwDatabaseRequest {
-	uint32 songDatabaseId = 1;
-	string name = 2;
-}
-
-message CreateEwDatabaseResponse {
-	EwDatabase ewDatabase = 1;
-}
-
-message UpdateEwDatabaseRequest {
-	uint32 ewDatabaseId = 1;
-	string name = 2;
-	uint32 songDatabaseId = 3;
-}
-
-message UpdateEwDatabaseResponse {
-	EwDatabase ewDatabase = 1;
-}
-
-message RemoveEwDatabaseRequest {
-	uint32 ewDatabaseId = 1;
-}
-
-message RemoveEwDatabaseResponse {
+message ChangeEwSongIdsResponse {
 
 }
 
@@ -76,4 +52,3 @@ message SyncEwDatabaseResponse {
 	repeated EwSong ewSongs = 1;
 	repeated uint32 removeEwSongIds = 2;
 }
-

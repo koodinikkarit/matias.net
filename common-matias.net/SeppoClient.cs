@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Google.Protobuf.Collections;
 using System.Net.Sockets;
 using Google.Protobuf;
-using SeppoService;
+using MatiasService;
 using Grpc.Core;
 using System.IO;
 
@@ -15,7 +15,7 @@ namespace common_matias
     public class SeppoClient
     {
         Channel channel;
-        SeppoService.Seppo.SeppoClient client;
+        MatiasService.Matias.MatiasClient client;
 
         private string seppoIp;
 
@@ -58,7 +58,7 @@ namespace common_matias
                 //var ssl = new SslCredentials(cacert, new KeyCertificatePair(clientcert, clientkey));
                 channel = new Channel(seppoIp, (int) seppoPort, ChannelCredentials.Insecure);
                 //channel = new Channel(matiasServerIp + ":" + matiasServerPort, ssl);
-                client = new SeppoService.Seppo.SeppoClient(channel);
+                client = new MatiasService.Matias.MatiasClient(channel);
             }
         }
 
@@ -69,11 +69,11 @@ namespace common_matias
 
         public void InsertEwSongIds(string ewDatabaseKey, List<VariationIdEwSongId> ids, Dictionary<int, int> links = null)
         {
-            var insertEwSongIdsRequest = new SeppoService.InsertEwSongIdsRequest();
+            var insertEwSongIdsRequest = new MatiasService.InsertEwSongIdsRequest();
             insertEwSongIdsRequest.EwDatabaseKey = ewDatabaseKey;
             foreach(var id in ids)
             {
-                insertEwSongIdsRequest.VariationIdEwSongIds.Add(new SeppoService.VariationIdEwSongId
+                insertEwSongIdsRequest.VariationIdEwSongIds.Add(new MatiasService.VariationIdEwSongId
                 {
                     EwSongId = id.ewSongId,
                     VariationId = id.variationId
@@ -83,7 +83,7 @@ namespace common_matias
             if (links != null) {
                 foreach (var link in links)
                 {
-                    insertEwSongIdsRequest.NewSongIds.Add(new SeppoService.NewSongId
+                    insertEwSongIdsRequest.NewSongIds.Add(new MatiasService.NewSongId
                     {
                         OldEwSongId = (uint)link.Key,
                         NewEwSongId = (uint)link.Value

@@ -1,7 +1,0 @@
-syntax = "proto3";
-
-package SeppoService;
-
-message Song {
-	uint32 id = 1;
-}

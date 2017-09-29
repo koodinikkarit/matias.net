@@ -15,16 +15,21 @@ namespace matias_console.net
 {
     class Program
     {
+        static private Matias matias;
+
         static void Main(string[] args)
         {
+            matias = new Matias();
+
             string seppoIp = "";
             int seppoPort = 0;
             string ewDatabasePath = "";
             string ewDatabaseKey = "";
 
-            if (File.Exists("config"))
+            if (File.Exists(Directory.GetCurrentDirectory() + "config"))
             {
-                var text = File.ReadAllText("config");
+                Console.WriteLine("Config tiedosto löydetty");
+                var text = File.ReadAllText(Directory.GetCurrentDirectory() + "config");
                 foreach(var part in Regex.Split(text, "\n"))
                 {
                     var rowParts = Regex.Split(part, "=");
@@ -53,7 +58,6 @@ namespace matias_console.net
                 ewDatabasePath != "" && 
                 ewDatabaseKey != "")
             {
-                Matias matias = new Matias();
                 matias.DatabasePath = ewDatabasePath;
                 matias.SeppoIp = seppoIp;
                 matias.Seppoport = seppoPort;
@@ -75,7 +79,48 @@ namespace matias_console.net
             else
             {
                 Console.WriteLine("Config ei loytynyt tai on virheellinen...");
-                Console.WriteLine("Aseta se kansioon " + Directory.GetCurrentDirectory());
+                Console.WriteLine("Haluatko luoda config tiedoston (y/n)");
+                string c = Console.ReadLine();
+                if (c == "y")
+                {
+                    Console.Write("Seppoip: ");
+                    seppoIp = Console.ReadLine();
+                    matias.SeppoIp = seppoIp;
+                    Console.Write("\nSeppoport: ");
+                    seppoPort = int.Parse(Console.ReadLine());
+                    matias.Seppoport = seppoPort;
+                    Console.Write("\nEwdatabasepath: ");
+                    ewDatabasePath = Console.ReadLine();
+                    matias.DatabasePath = ewDatabasePath;
+                    Console.Write("\nEwdatabasekey: ");
+                    ewDatabaseKey = Console.ReadLine();
+                    matias.EwDatabaseKey = ewDatabaseKey;
+
+                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(Directory.GetCurrentDirectory() + "config"))
+                    {
+                        file.WriteLine("seppoip=" + seppoIp);
+                        file.WriteLine("seppoport=" + seppoPort);
+                        file.WriteLine("ewdatabasepath=" + ewDatabasePath);
+                        file.WriteLine("ewdatabasekey=" + ewDatabaseKey);
+                    }
+
+                    matias.SyncAfterDatabaseUnlocked = true;
+
+                    if (matias.DatabaseLocked == false)
+                    {
+                        Console.WriteLine("Database not locked syncing now...");
+                        matias.SyncEwDatabase();
+                    }
+
+                    while (true)
+                    {
+
+                    }
+                }
+                else if (c == "n")
+                {
+                    Console.WriteLine("Luo config tiedosto ja aseta se kansioon " + Directory.GetCurrentDirectory());
+                }
                 Console.ReadKey();
             }
         }
